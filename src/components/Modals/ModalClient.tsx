@@ -11,8 +11,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-type Props = {};
-
 function ModalClient() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
