@@ -7,10 +7,13 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import type { ProductType } from "../../types";
 
-type Props = {};
+type Props = {
+  data?: ProductType[];
+};
 
-function ProductTableSearch({}: Props) {
+function ProductTableSearch({ data }: Props) {
   return (
     <TableContainer>
       <Table variant="striped">
@@ -27,14 +30,12 @@ function ProductTableSearch({}: Props) {
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-          </Tr>
-          <Tr>
-            <Td>feet</Td>
-            <Td>centimetres (cm)</Td>
-          </Tr>
+          {data?.map((p) => (
+            <Tr key={p.codigoProducto}>
+              <Td>{p.codigoProducto}</Td>
+              <Td>{p.nombreProducto}</Td>
+            </Tr>
+          ))}
         </Tbody>
       </Table>
     </TableContainer>
