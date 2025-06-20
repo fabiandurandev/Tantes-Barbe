@@ -39,7 +39,6 @@ const NavLink = (props: Props) => {
   const { children, to } = props;
   return (
     <Box
-      as="a"
       px={2}
       py={1}
       rounded={"md"}
