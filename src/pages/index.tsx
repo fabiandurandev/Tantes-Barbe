@@ -6,6 +6,7 @@ import Productos from "./Productos";
 import Clientes from "./Clientes";
 import Empleados from "./Empleados";
 import Proveedores from "./Proveedores";
+import Compras from "./Compras";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/proveedores",
         element: <Proveedores />,
+      },
+      {
+        path: "/compras",
+        element: <Compras />,
       },
     ],
   },
