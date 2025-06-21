@@ -1,6 +1,4 @@
-import React from 'react'
-
-import { Box, HStack, Heading, Button, useColorModeValue, Flex, Stack, Center, Text, VStack, Image } from "@chakra-ui/react";
+import { Box, HStack, Button, useColorModeValue, Flex, Text, VStack, Image } from "@chakra-ui/react";
 
 const ServiceMenu = () => {
   const buttonBg = useColorModeValue("blue.500", "blue.200");
@@ -25,22 +23,27 @@ const ServiceMenu = () => {
           bg={buttonBg}
           color={buttonColor}
           _hover={{ bg: buttonHoverBg }}
-          px={10}
-          py={20}
-          fontSize="xl"
-          fontWeight="bold"
-          minW="200px"
+          minW="300px"
+          minH="300px"
           leftIcon={
             <Image 
             src="/img/agregar.png" 
-            boxSize="120px"
+            boxSize="180px"
             alt="Agregar"
             />
             }
         >
         </Button>
-        <Text>AGREGAR NUEVO SERVICIO</Text>
+        <Text fontWeight="bold" fontSize="lg">AGREGAR NUEVO SERVICIO</Text>
         </VStack>
+
+        Icon={
+            <Image 
+            src="/img/linea.png" 
+            boxSize="180px"
+            alt="Agregar"
+            />
+            }
         
         <VStack>
         <Button
@@ -48,44 +51,46 @@ const ServiceMenu = () => {
           bg={buttonBg}
           color={buttonColor}
           _hover={{ bg: buttonHoverBg }}
-          px={10}
-          py={20}
-          fontSize="xl"
-          fontWeight="bold"
-          minW="200px"
+          minW="300px"
+          minH="300px"
           leftIcon={
             <Image 
             src="/img/modificar.png" 
-            boxSize="120px"
+            boxSize="180px"
             alt="Modificar"
             />
             }
         >
         </Button>
-        <Text>MODIFICAR SERVICIO</Text>
+        <Text fontWeight="bold" fontSize="lg">MODIFICAR SERVICIO</Text>
         </VStack>
         
+        Icon={
+            <Image 
+            src="/img/linea.png" 
+            boxSize="180px"
+            alt="Agregar"
+            />
+            }
+
         <VStack>
         <Button
           size="lg"
           bg={buttonBg}
           color={buttonColor}
           _hover={{ bg: buttonHoverBg }}
-          px={10}
-          py={20}
-          fontSize="xl"
-          fontWeight="bold"
-          minW="200px"
+          minW="300px"
+          minH="300px"
           leftIcon={
             <Image 
             src="/img/consultar.png" 
-            boxSize="120px"
+            boxSize="180px"
             alt="Consultar"
             />
             }
         >
         </Button>
-        <Text>CONSULTAR SERVICIO</Text>
+        <Text fontWeight="bold" fontSize="lg">CONSULTAR SERVICIO</Text>
         </VStack>
       </HStack>
     </Box>
