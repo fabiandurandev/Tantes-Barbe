@@ -4,3 +4,10 @@ export type ProductType = {
   stock: number;
   precioProducto: string;
 };
+
+export type ClientType = {
+  nombreCliente: string;
+  cedulaCliente: number;
+  direccionCliente: string;
+  telefonoCliente: string;
+};
