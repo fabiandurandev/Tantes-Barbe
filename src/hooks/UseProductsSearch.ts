@@ -13,7 +13,7 @@ const queryProducts = (params: string | undefined): Promise<ProductType[]> => {
 
 function UseProductsSearch(params: string | undefined) {
   return useQuery({
-    queryKey: ["products", ""],
+    queryKey: ["products"],
     queryFn: () => queryProducts(params),
     enabled: false,
   });
