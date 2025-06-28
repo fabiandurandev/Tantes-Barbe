@@ -6,15 +6,12 @@ import {
   TableContainer,
   Tbody,
   Td,
-  Text,
   Th,
   Thead,
   Tr,
 } from "@chakra-ui/react";
 import Buttons from "./Buttons";
 import useProductsStore from "../../contexts/store";
-import { useState } from "react";
-import type { ProductType } from "../../types";
 
 type Props = {};
 
@@ -23,14 +20,6 @@ function ProductListEditor({}: Props) {
 
   const { products, quantity, addQuantity, remove, subtractQuantity } =
     useProductsStore();
-
-  const [quantityProduct, setQuantityProduct] = useState([]);
-
-  const addProductList = (i: number, p: ProductType) => {
-    if (quantity[i] < p.stock) {
-      quantity[i] === quantity[i] + 1;
-    }
-  };
 
   const th = ["N°", "Código", "Precio", "Descripción", "Cantidad", "Quitar"];
 
