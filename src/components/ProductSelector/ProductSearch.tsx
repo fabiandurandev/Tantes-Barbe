@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { productSchema, type ProductSearchForm } from "../../schemas/Product";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import useProductsStore from "../../contexts/store";
 
 type Props = {};
 
