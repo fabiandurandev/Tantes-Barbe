@@ -26,7 +26,7 @@ interface Props {
 }
 
 const Links = [
-  { uri: "1", label: "Venta" },
+  { uri: "/", label: "Venta" },
   { uri: "2", label: "Servicios" },
   { uri: "3", label: "Productos" },
   { uri: "4", label: "Clientes" },
