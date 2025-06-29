@@ -14,7 +14,7 @@ type ProductsStore = {
 const useProductsStore = create<ProductsStore>((set) => ({
   products: [],
   add: (product) =>
-    set((state) => ({ products: [product, ...state.products] })),
+    set((state) => ({ products: [...state.products, product] })),
   remove: (codigo, index) =>
     set((state) => ({
       products: state.products.filter(
