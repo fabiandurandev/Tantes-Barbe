@@ -1,60 +1,37 @@
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import { FaSearch } from "react-icons/fa";
-import { clientSchema, type ClientSearchFormType } from "../../schemas/Client";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Box, Flex, Heading, useDisclosure } from "@chakra-ui/react";
+
 import { useEffect, useState } from "react";
 import UseClientSearch from "../../hooks/UseClientSearch";
 import DataClient from "./DataClient";
 import axios from "axios";
 import ModalClient from "../Modals/ModalClient";
 import SkeletonDataClient from "../skeletons/SkeletonDataClient";
-
-const styleForm = {
-  width: "100%",
-  height: "100%",
-  alignContent: "center",
-};
+import FormClientSearch from "./FormClientSearch";
+import ButtonsSend from "./ButtonsSend";
+import { useClientStore } from "../../contexts/store";
 
 type Props = {};
 
 function ClientSearch({}: Props) {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
+  const { client, setClient } = useClientStore();
+
   const [cedula, setCedula] = useState<number>(0);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    getValues,
-  } = useForm<ClientSearchFormType>({
-    resolver: zodResolver(clientSchema),
-  });
-
   const { data, isLoading, error, refetch } = UseClientSearch(cedula);
-
-  const onSubmit = () => {
-    refetch();
-    reset();
-  };
 
   useEffect(() => {
     if (axios.isAxiosError(error) && error.response?.status === 404) {
       onOpen();
     }
-  }, [error, onClose]);
+
+    if (data) {
+      setClient(data);
+    }
+  }, [error, onClose, isLoading]);
+
+  console.log(data, client);
 
   return (
     <>
@@ -64,39 +41,14 @@ function ClientSearch({}: Props) {
             Datos del cliente
           </Heading>
           {isLoading && <SkeletonDataClient />}
-          {data !== undefined ? <DataClient data={data} /> : ""}
+          {client !== undefined ? <DataClient data={client} /> : ""}
         </Box>
         <Box alignContent={"center"} flex={3} justifyItems={"center"}>
-          <form style={styleForm} onSubmit={handleSubmit(onSubmit)}>
-            <FormControl>
-              <FormLabel color={"gray.400"} ml={2}>
-                Cédula:
-              </FormLabel>
-              <Flex gridRow={3} w={"100%"} p={2} gap={1}>
-                <Input
-                  {...register("cedulaClient")}
-                  flex={"7"}
-                  size={"md"}
-                  placeholder="Ingrese la cédula del cliente"
-                  border={"1px"}
-                />
-                <Button
-                  onClick={() => setCedula(getValues("cedulaClient"))}
-                  type="submit"
-                  size={"md"}
-                  flex={"3"}
-                  bg={"transparent"}
-                >
-                  <FaSearch size={20} color="#2E66E1" />
-                </Button>
-              </Flex>
-            </FormControl>
-            {errors && (
-              <Text pl={2} color={"red.500"}>
-                {errors.cedulaClient?.message}
-              </Text>
-            )}
-          </form>
+          {client ? (
+            <ButtonsSend />
+          ) : (
+            <FormClientSearch setCedula={setCedula} refetch={refetch} />
+          )}
         </Box>
       </Flex>
 

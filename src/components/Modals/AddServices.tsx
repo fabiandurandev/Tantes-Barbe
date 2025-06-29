@@ -11,7 +11,7 @@ import {
   Stack,
   FormControl,
   FormLabel,
-  Input
+  Input,
 } from "@chakra-ui/react";
 
 function Services() {
@@ -29,27 +29,24 @@ function Services() {
           <ModalCloseButton />
           <ModalBody>
             <Stack spacing={4}>
-
               /* Código */
-              
               <FormControl>
                 <FormLabel>Código:</FormLabel>
-                <Input placeholder="Ingrese el codigo" borderWidth={ 2 } />
+                <Input placeholder="Ingrese el codigo" borderWidth={2} />
               </FormControl>
-              
-
               /* descripcion */
-
               <FormControl>
                 <FormLabel>Descripción:</FormLabel>
-                <Input placeholder="Ingrese la descripcion" borderWidth={ 2 } />
+                <Input placeholder="Ingrese la descripcion" borderWidth={2} />
               </FormControl>
-
               /* Precio */
-
               <FormControl>
                 <FormLabel>Precio:</FormLabel>
-                <Input type="number" placeholder="Ingrese el precio" borderWidth={ 2 } />
+                <Input
+                  type="number"
+                  placeholder="Ingrese el precio"
+                  borderWidth={2}
+                />
               </FormControl>
             </Stack>
           </ModalBody>
