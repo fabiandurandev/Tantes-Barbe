@@ -27,12 +27,13 @@ interface Props {
 
 const Links = [
   { uri: "/", label: "Venta" },
-  { uri: "2", label: "Servicios" },
-  { uri: "3", label: "Productos" },
-  { uri: "4", label: "Clientes" },
-  { uri: "5", label: "Empleados" },
-  { uri: "6", label: "Proveedores" },
-  { uri: "7", label: "Compras" },
+  { uri: "/servicios", label: "Servicios" },
+  { uri: "/productos", label: "Productos" },
+  { uri: "/clientes", label: "Clientes" },
+  { uri: "/empleados", label: "Empleados" },
+  { uri: "/proveedores", label: "Proveedores" },
+  { uri: "/compras", label: "Compras" },
+
 ];
 
 const NavLink = (props: Props) => {
