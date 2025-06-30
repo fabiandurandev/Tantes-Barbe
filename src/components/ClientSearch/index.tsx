@@ -31,8 +31,6 @@ function ClientSearch({}: Props) {
     }
   }, [error, onClose, isLoading]);
 
-  console.log(data, client);
-
   return (
     <>
       <Flex h={60} m="3" gap={3}>

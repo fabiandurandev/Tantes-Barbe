@@ -33,6 +33,7 @@ function CancelSaleModal({ isOpen, onClose }: Props) {
     queryClient.removeQueries({ queryKey: ["client"] });
     navigate("/");
   };
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
