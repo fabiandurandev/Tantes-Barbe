@@ -33,6 +33,7 @@ const Links = [
   { uri: "/empleados", label: "Empleados" },
   { uri: "/proveedores", label: "Proveedores" },
   { uri: "/compras", label: "Compras" },
+
 ];
 
 const NavLink = (props: Props) => {

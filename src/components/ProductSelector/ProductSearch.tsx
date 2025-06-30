@@ -1,20 +1,20 @@
 import {
+  Box,
   Button,
   Flex,
   FormControl,
   FormLabel,
   Input,
-  Box,
   Text,
 } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
-import ProductTableSearch from "./ProductTableSearch";
-import SkeletonProduct from "../skeletons/SkeletonProduct";
-import UseProductsSearch from "../../hooks/UseProductsSearch";
-import { useForm } from "react-hook-form";
-import { productSchema, type ProductSearchForm } from "../../schemas/Product";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { FaSearch } from "react-icons/fa";
+import UseProductsSearch from "../../hooks/UseProductsSearch";
+import { productSchema, type ProductSearchForm } from "../../schemas/Product";
+import SkeletonProduct from "../skeletons/SkeletonProduct";
+import ProductTableSearch from "./ProductTableSearch";
 
 type Props = {};
 
@@ -37,6 +37,8 @@ function ProductSearch({}: Props) {
     refetch();
     reset();
   };
+
+  console.log(data);
 
   if (error) return <p>{error?.message}</p>;
   if (isLoading) {
