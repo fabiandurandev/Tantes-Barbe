@@ -12,7 +12,13 @@ import {
 import AddSupplier from "../../components/Modals/AddSuppliers";
 import RifSupplier from "../../components/Modals/RifSupplier";
 import UpdateSupplier from "../../components/Modals/UpdateSuppliers";
-import { UseSupplierStoreUpdateDelete } from "../../contexts/store";
+import {
+  UseSupplierListStore,
+  UseSupplierStoreUpdateDelete,
+} from "../../contexts/store";
+import ListSupplierModal from "../../components/Modals/ListSupplierModal";
+import UseListSuppliers from "../../hooks/UseListSuppliers";
+import { useEffect } from "react";
 
 const SupplierMenu = () => {
   const buttonBg = useColorModeValue("blue.500", "blue.200");
@@ -22,8 +28,22 @@ const SupplierMenu = () => {
   const modalAddSupplier = useDisclosure();
   const modalUpdateSupplier = useDisclosure();
   const modalRifSupplier = useDisclosure();
+  const modalListSupplier = useDisclosure();
 
   const { supplier } = UseSupplierStoreUpdateDelete();
+
+  const { setSupplierList } = UseSupplierListStore();
+
+  const { refetch, data } = UseListSuppliers();
+
+  useEffect(() => {
+    if (data) setSupplierList(data);
+  }, [data]);
+
+  const onClick = () => {
+    refetch();
+    modalListSupplier.onOpen();
+  };
 
   return (
     <Flex minH="75vh" direction="column" justify="center" align="center" p={6}>
@@ -82,6 +102,7 @@ const SupplierMenu = () => {
           />
           <VStack>
             <Button
+              onClick={onClick}
               size="lg"
               bg={buttonBg}
               color={buttonColor}
@@ -97,8 +118,9 @@ const SupplierMenu = () => {
               }
             ></Button>
             <Text fontWeight="bold" fontSize="lg">
-              CONSULTAR PROVEEDOR
+              CONSULTAR PROVEEDORORES
             </Text>
+            <ListSupplierModal modalListSupplier={modalListSupplier} />
           </VStack>
         </HStack>
       </Box>

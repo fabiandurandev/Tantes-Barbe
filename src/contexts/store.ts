@@ -121,4 +121,16 @@ export const UseSupplierStoreUpdateDelete = create<Suplier>((set) => ({
   resetSupplier: () => set(() => ({ supplier: undefined })),
 }));
 
+type SupplierList = {
+  suppliers: SupplierType[];
+  setSupplierList: (supplierList: SupplierType[]) => void;
+  resetSupplierList: () => void;
+};
+
+export const UseSupplierListStore = create<SupplierList>((set) => ({
+  suppliers: [],
+  setSupplierList: (supplierList) => set(() => ({ suppliers: supplierList })),
+  resetSupplierList: () => set(() => ({ suppliers: [] })),
+}));
+
 export default useProductsStore;
