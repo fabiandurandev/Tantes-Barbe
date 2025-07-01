@@ -1,5 +1,11 @@
 import {
   Button,
+  Divider,
+  FormControl,
+  FormLabel,
+  HStack,
+  Heading,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -7,17 +13,10 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
-  Stack,
-  FormControl,
-  FormLabel,
-  Input,
-  Text,
-  Divider,
   Radio,
   RadioGroup,
-  HStack,
-  Heading
+  Stack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -32,9 +31,9 @@ function UpdateEmployee() {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent borderRadius="20px">
-          <ModalHeader 
-            borderTopRadius="20px" 
-            bg="blue.600" 
+          <ModalHeader
+            borderTopRadius="20px"
+            bg="blue.600"
             color="white"
             fontSize="lg"
             fontWeight="bold"
@@ -42,14 +41,16 @@ function UpdateEmployee() {
             Modificar empleados
           </ModalHeader>
           <ModalCloseButton color="white" />
-          
+
           <ModalBody py={4}>
             <Stack spacing={4}>
-              <Heading as="h3" size="md" fontWeight="semibold">Datos del Empleado</Heading>
-              
+              <Heading as="h3" size="md" fontWeight="semibold">
+                Datos del Empleado
+              </Heading>
+
               <FormControl>
                 <FormLabel>Cédula:</FormLabel>
-                < Input
+                <Input
                   type="number"
                   placeholder="###"
                   borderWidth={2}
@@ -59,9 +60,9 @@ function UpdateEmployee() {
 
               <FormControl>
                 <FormLabel>Teléfono:</FormLabel>
-                <Input 
+                <Input
                   type="number"
-                  placeholder="###" 
+                  placeholder="###"
                   borderWidth={2}
                   borderRadius="md"
                 />
@@ -69,8 +70,8 @@ function UpdateEmployee() {
 
               <FormControl>
                 <FormLabel>Nombre:</FormLabel>
-                <Input 
-                  placeholder="###" 
+                <Input
+                  placeholder="###"
                   borderWidth={2}
                   borderRadius="md"
                   fontWeight="bold"
@@ -79,8 +80,8 @@ function UpdateEmployee() {
 
               <FormControl>
                 <FormLabel>Email:</FormLabel>
-                <Input 
-                  placeholder="###"  
+                <Input
+                  placeholder="###"
                   borderWidth={2}
                   borderRadius="md"
                   fontWeight="bold"
@@ -89,8 +90,8 @@ function UpdateEmployee() {
 
               <FormControl>
                 <FormLabel>Nivel de Autorización:</FormLabel>
-                <RadioGroup 
-                  value={authorizationLevel} 
+                <RadioGroup
+                  value={authorizationLevel}
                   onChange={setAuthorizationLevel}
                 >
                   <HStack spacing={5}>
@@ -102,11 +103,7 @@ function UpdateEmployee() {
 
               <FormControl>
                 <FormLabel>Dirección:</FormLabel>
-                <Input 
-                  placeholder="###" 
-                  borderWidth={2}
-                  borderRadius="md"
-                />
+                <Input placeholder="###" borderWidth={2} borderRadius="md" />
               </FormControl>
             </Stack>
           </ModalBody>
@@ -114,16 +111,16 @@ function UpdateEmployee() {
           <Divider />
 
           <ModalFooter>
-            <Button 
-              colorScheme="blue" 
+            <Button
+              colorScheme="blue"
               mr={3}
               borderRadius="md"
               fontWeight="bold"
             >
               CONFIRMAR CAMBIOS
             </Button>
-            <Button 
-              colorScheme="red" 
+            <Button
+              colorScheme="red"
               variant="outline"
               mr={3}
               borderRadius="md"
@@ -131,8 +128,8 @@ function UpdateEmployee() {
             >
               ELIMINAR
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={onClose}
               borderRadius="md"
               fontWeight="bold"

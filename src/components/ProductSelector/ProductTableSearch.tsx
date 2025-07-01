@@ -7,32 +7,56 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import type { ProductType } from "../../types";
-import useProductsStore from "../../contexts/store";
+import type { ProductType, ServiceType } from "../../types";
+import useProductsStore, { UseServicesStore } from "../../contexts/store";
 
 type Props = {
-  data?: ProductType[];
+  dataProducts?: ProductType[];
+  dataServices?: ServiceType[];
 };
 
-function ProductTableSearch({ data }: Props) {
-  const { add, quantity, products, addQuantity } = useProductsStore();
+function ProductTableSearch({ dataProducts, dataServices }: Props) {
+  const {
+    add: addProduct,
+    quantity: quantityProduct,
+    products,
+    addQuantity: addQuantityProducts,
+  } = useProductsStore();
 
-  const onClick = (p: ProductType) => {
+  const {
+    add: addService,
+    quantity: quantityService,
+    services,
+    addQuantity: addQuantityService,
+  } = UseServicesStore();
+
+  const onClickProduct = (p: ProductType) => {
     if (
       products.some((product) => p.codigoProducto === product.codigoProducto)
     ) {
       const i = products.findIndex(
         (product) => product.codigoProducto === p.codigoProducto
       );
-      addQuantity(i, products[i]);
+      addQuantityProducts(i, products[i]);
     } else {
-      quantity.push(1);
-      console.log(quantity);
-      add(p);
+      quantityProduct.push(1);
+      addProduct(p);
     }
   };
 
-  console.log(products);
+  const onClicService = (s: ServiceType) => {
+    if (
+      services.some((service) => s.codigoServicio === service.codigoServicio)
+    ) {
+      const i = services.findIndex(
+        (service) => service.codigoServicio === s.codigoServicio
+      );
+      addQuantityService(i, services[i]);
+    } else {
+      quantityService.push(1);
+      addService(s);
+    }
+  };
 
   return (
     <TableContainer>
@@ -50,11 +74,19 @@ function ProductTableSearch({ data }: Props) {
           </Tr>
         </Thead>
         <Tbody>
-          {data?.map((p, index) => (
+          {dataProducts?.map((p, index) => (
             <Tr key={index}>
               <Td>{p.codigoProducto}</Td>
-              <Td onClick={() => onClick(p)} cursor={"pointer"}>
+              <Td onClick={() => onClickProduct(p)} cursor={"pointer"}>
                 {p.nombreProducto}
+              </Td>
+            </Tr>
+          ))}
+          {dataServices?.map((s, index) => (
+            <Tr key={index}>
+              <Td>{s.codigoServicio}</Td>
+              <Td onClick={() => onClicService(s)} cursor={"pointer"}>
+                {s.nombreServicio}
               </Td>
             </Tr>
           ))}

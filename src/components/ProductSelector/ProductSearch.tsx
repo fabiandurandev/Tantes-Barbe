@@ -15,6 +15,7 @@ import UseProductsSearch from "../../hooks/UseProductsSearch";
 import { productSchema, type ProductSearchForm } from "../../schemas/Product";
 import SkeletonProduct from "../skeletons/SkeletonProduct";
 import ProductTableSearch from "./ProductTableSearch";
+import UseServiceSearch from "../../hooks/UseServicesSearch";
 
 type Props = {};
 
@@ -31,14 +32,23 @@ function ProductSearch({}: Props) {
     resolver: zodResolver(productSchema),
   });
 
-  const { data, error, isLoading, refetch } = UseProductsSearch(busqueda);
+  const {
+    data: dataProducts,
+    error,
+    isLoading,
+    refetch: refetchProduct,
+  } = UseProductsSearch(busqueda);
 
-  const onSubmit = () => {
-    refetch();
+  const {
+    data: dataServices,
+
+    refetch: refetchService,
+  } = UseServiceSearch(busqueda);
+
+  const onSubmit = async () => {
+    await Promise.all([refetchProduct(), refetchService()]);
     reset();
   };
-
-  console.log(data);
 
   if (error) return <p>{error?.message}</p>;
   if (isLoading) {
@@ -87,10 +97,10 @@ function ProductSearch({}: Props) {
           {errors.productName?.message && (
             <Text color={"red.400"}>{errors.productName?.message}</Text>
           )}
-          {data === undefined ? (
+          {dataProducts === undefined && dataServices === undefined ? (
             ""
-          ) : data.length === 0 ? (
-            <Text>Producto no encontrado</Text>
+          ) : dataProducts?.length === 0 && dataServices?.length === 0 ? (
+            <Text>Productos y servicios no encontrados</Text>
           ) : (
             <Box
               border={"1px"}
@@ -99,7 +109,10 @@ function ProductSearch({}: Props) {
               overflow={"auto"}
               maxH={"370"}
             >
-              <ProductTableSearch data={data} />
+              <ProductTableSearch
+                dataProducts={dataProducts}
+                dataServices={dataServices}
+              />
             </Box>
           )}
         </FormControl>
