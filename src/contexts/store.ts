@@ -1,4 +1,9 @@
-import type { ClientType, ProductType, ServiceType } from "../types";
+import type {
+  ClientType,
+  ProductType,
+  ServiceType,
+  SupplierType,
+} from "../types";
 import { create } from "zustand";
 
 type ProductsStore = {
@@ -102,6 +107,18 @@ export const UseServiceStoreUpdateDelete = create<Service>((set) => ({
   service: undefined,
   setService: (service) => set(() => ({ service: service })),
   resetService: () => set(() => ({ service: undefined })),
+}));
+
+type Suplier = {
+  supplier: SupplierType | undefined;
+  setSupplier: (supplier: SupplierType) => void;
+  resetSupplier: () => void;
+};
+
+export const UseSupplierStoreUpdateDelete = create<Suplier>((set) => ({
+  supplier: undefined,
+  setSupplier: (supplier) => set(() => ({ supplier: supplier })),
+  resetSupplier: () => set(() => ({ supplier: undefined })),
 }));
 
 export default useProductsStore;

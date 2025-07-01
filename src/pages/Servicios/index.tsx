@@ -46,8 +46,6 @@ const ServiceMenu = () => {
     modal4.onOpen();
   };
 
-  console.log(data);
-
   return (
     <Flex minH="75vh" direction="column" justify="center" align="center" p={6}>
       <Box p={6} maxW="4xl" mx="auto" textAlign="center">
