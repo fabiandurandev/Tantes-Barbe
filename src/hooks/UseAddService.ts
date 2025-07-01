@@ -1,6 +1,5 @@
-import axios from "axios";
-import type { addServiceFormType } from "../schemas/AddService";
 import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 type addService = {
   nombreServicio: string;

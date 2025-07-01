@@ -1,6 +1,6 @@
-import axios from "axios";
-import type { ClientType, ServiceType } from "../types";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import type { ServiceType } from "../types";
 
 const queryService = async (codigo: number): Promise<ServiceType> => {
   const url = `http://127.0.0.1:8000/servicio/${codigo}`;

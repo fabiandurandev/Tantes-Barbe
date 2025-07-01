@@ -10,23 +10,17 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
-  Text,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import {
-  addServiceSchema,
-  type addServiceFormType,
-} from "../../schemas/AddService";
 import { zodResolver } from "@hookform/resolvers/zod";
-import UseServiceSearch from "../../hooks/UseServicesSearch";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import UseRetrieveSearch from "../../hooks/UseRetrieveService";
+import { useForm } from "react-hook-form";
 import { UseServiceStoreUpdateDelete } from "../../contexts/store";
+import UseRetrieveSearch from "../../hooks/UseRetrieveService";
 import type { retrieveServiceFormType } from "../../schemas/RetrieveService";
 import retrieveService from "../../schemas/RetrieveService";
-import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   modal3: {
@@ -65,7 +59,7 @@ function CodigoServiceModal({ modal3, modal2 }: Props) {
     isLoading,
   } = UseRetrieveSearch(codigo);
 
-  const { setService, service } = UseServiceStoreUpdateDelete();
+  const { setService } = UseServiceStoreUpdateDelete();
 
   const queryClient = useQueryClient();
 

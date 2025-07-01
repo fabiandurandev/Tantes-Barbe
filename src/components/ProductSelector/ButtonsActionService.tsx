@@ -1,8 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import { FaMinus } from "react-icons/fa";
-import { IoMdAdd } from "react-icons/io";
-import { IoIosCloseCircle } from "react-icons/io";
-import type { ProductType, ServiceType } from "../../types";
+import { IoIosCloseCircle, IoMdAdd } from "react-icons/io";
+import type { ServiceType } from "../../types";
 
 type Props = {
   tipo: "minusProduct" | "addProduct" | "deleteProduct";

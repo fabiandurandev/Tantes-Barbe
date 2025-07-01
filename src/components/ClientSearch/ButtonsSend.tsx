@@ -41,7 +41,7 @@ function ButtonsSend({}: Props) {
 
   const onClick = () => {
     RegisterSale(payload, {
-      onSuccess: (data) => {
+      onSuccess: () => {
         resetClient();
         resetSale();
         resetSaleService();

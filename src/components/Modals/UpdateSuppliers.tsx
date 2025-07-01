@@ -12,8 +12,7 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Text,
-  Divider
+  Divider,
 } from "@chakra-ui/react";
 
 function UpdateSupplier() {
@@ -26,9 +25,9 @@ function UpdateSupplier() {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent borderRadius="20px">
-          <ModalHeader 
-            borderTopRadius="20px" 
-            bg="blue.600" 
+          <ModalHeader
+            borderTopRadius="20px"
+            bg="blue.600"
             color="white"
             fontSize="lg"
             fontWeight="bold"
@@ -36,49 +35,33 @@ function UpdateSupplier() {
             Modificar Proveedor
           </ModalHeader>
           <ModalCloseButton color="white" />
-          
+
           <ModalBody py={4}>
             <Stack spacing={4}>
               <FormControl>
                 <FormLabel fontWeight="bold">RIF:</FormLabel>
-                <Input
-                  placeholder="###" 
-                  borderWidth={2}
-                  borderRadius="md"
-                />
+                <Input placeholder="###" borderWidth={2} borderRadius="md" />
               </FormControl>
 
               <FormControl>
                 <FormLabel fontWeight="bold">Email:</FormLabel>
-                <Input 
-                  placeholder="###"
-                  borderWidth={2}
-                  borderRadius="md"
-                />
+                <Input placeholder="###" borderWidth={2} borderRadius="md" />
               </FormControl>
 
               <FormControl>
                 <FormLabel fontWeight="bold">Dirección:</FormLabel>
-                <Input 
-                  placeholder="###" 
-                  borderWidth={2}
-                  borderRadius="md"
-                />
+                <Input placeholder="###" borderWidth={2} borderRadius="md" />
               </FormControl>
 
               <FormControl>
                 <FormLabel fontWeight="bold">Nombre:</FormLabel>
-                <Input 
-                  placeholder="###" 
-                  borderWidth={2}
-                  borderRadius="md"
-                />
+                <Input placeholder="###" borderWidth={2} borderRadius="md" />
               </FormControl>
 
               <FormControl>
                 <FormLabel fontWeight="bold">Teléfono:</FormLabel>
-                <Input 
-                  placeholder="##########" 
+                <Input
+                  placeholder="##########"
                   borderWidth={2}
                   borderRadius="md"
                 />
@@ -86,8 +69,8 @@ function UpdateSupplier() {
 
               <FormControl>
                 <FormLabel fontWeight="bold">Fecha:</FormLabel>
-                <Input 
-                  placeholder=" /  / " 
+                <Input
+                  placeholder=" /  / "
                   borderWidth={2}
                   borderRadius="md"
                   maxWidth="150px"
@@ -99,16 +82,16 @@ function UpdateSupplier() {
           <Divider />
 
           <ModalFooter>
-            <Button 
-              colorScheme="blue" 
+            <Button
+              colorScheme="blue"
               mr={3}
               borderRadius="md"
               fontWeight="bold"
             >
               CONFIRMAR CAMBIOS
             </Button>
-            <Button 
-              colorScheme="red" 
+            <Button
+              colorScheme="red"
               variant="outline"
               mr={3}
               borderRadius="md"
@@ -116,8 +99,8 @@ function UpdateSupplier() {
             >
               ELIMINAR
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={onClose}
               borderRadius="md"
               fontWeight="bold"

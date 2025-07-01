@@ -1,5 +1,8 @@
 import {
   Button,
+  FormControl,
+  FormLabel,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -7,23 +10,17 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
   Stack,
-  FormControl,
-  FormLabel,
-  Input,
   Text,
 } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { UseAddService } from "../../hooks/UseAddService";
 import {
   addServiceSchema,
   type addServiceFormType,
 } from "../../schemas/AddService";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UseAddService } from "../../hooks/UseAddService";
-import AddServiceLoad from "../../pages/Servicios/AddServiceLoad";
-import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
 
 type Props = {
   modal1: {
@@ -41,7 +38,6 @@ function Services({ modal1 }: Props) {
     handleSubmit,
     formState: { errors },
     reset,
-    getValues,
   } = useForm<addServiceFormType>({
     resolver: zodResolver(addServiceSchema),
   });
@@ -52,8 +48,6 @@ function Services({ modal1 }: Props) {
     reset: resetAddService,
   } = UseAddService();
 
-  const queryClient = useQueryClient();
-
   const navigate = useNavigate();
 
   const onClick = (data: addServiceFormType) => {
@@ -63,7 +57,7 @@ function Services({ modal1 }: Props) {
       precioServicio: data.precioServicio,
     };
     RegisterService(serviceLoad, {
-      onSuccess: (data) => {
+      onSuccess: () => {
         reset();
         modal1.onClose();
         navigate("/");

@@ -67,7 +67,7 @@ export const UseServicesStore = create<ServicesStore>((set) => ({
       ],
     })),
   quantity: [],
-  addQuantity: (i, service) =>
+  addQuantity: (i) =>
     set((state) => ({
       quantity: state.quantity.map((q, index) => (i === index ? q + 1 : q)),
     })),

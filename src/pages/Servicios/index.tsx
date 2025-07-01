@@ -1,25 +1,24 @@
 import {
   Box,
-  HStack,
   Button,
-  useColorModeValue,
   Flex,
-  Text,
-  VStack,
+  HStack,
   Image,
+  Text,
+  useColorModeValue,
   useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 import Services from "../../components/Modals/AddServices";
-import { useNavigate } from "react-router";
-import UpdateService from "../../components/Modals/UpdateService";
 import CodigoServiceModal from "../../components/Modals/CodigoService";
+import ListServiceModal from "../../components/Modals/ListServiceModal";
+import UpdateService from "../../components/Modals/UpdateService";
 import {
   UseServicesStore,
   UseServiceStoreUpdateDelete,
 } from "../../contexts/store";
-import ListServiceModal from "../../components/Modals/ListServiceModal";
 import UseListServices from "../../hooks/UseListServices";
-import { useEffect } from "react";
 
 const ServiceMenu = () => {
   const buttonBg = useColorModeValue("blue.500", "blue.200");

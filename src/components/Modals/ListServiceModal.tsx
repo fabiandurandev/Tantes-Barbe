@@ -1,25 +1,20 @@
 import {
-  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Table,
-  TableCaption,
   TableContainer,
   Tbody,
   Td,
-  Tfoot,
   Th,
   Thead,
   Tr,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { UseServicesStore } from "../../contexts/store";
 import { useQueryClient } from "@tanstack/react-query";
+import { UseServicesStore } from "../../contexts/store";
 
 type Props = {
   modal4: {
