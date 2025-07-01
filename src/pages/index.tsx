@@ -7,6 +7,7 @@ import Clientes from "./Clientes";
 import Empleados from "./Empleados";
 import Proveedores from "./Proveedores";
 import Compras from "./Compras";
+import Services from "../components/Modals/AddServices";
 
 const router = createBrowserRouter([
   {

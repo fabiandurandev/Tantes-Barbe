@@ -11,7 +11,10 @@ import {
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
-import useProductsStore, { useClientStore } from "../../contexts/store";
+import useProductsStore, {
+  useClientStore,
+  UseServicesStore,
+} from "../../contexts/store";
 
 type Props = {
   isOpen: boolean;
@@ -24,11 +27,14 @@ function CancelSaleModal({ isOpen, onClose }: Props) {
 
   const { resetSale } = useProductsStore();
 
+  const { resetSale: resetSaleServices } = UseServicesStore();
+
   const { resetClient } = useClientStore();
 
   const onClick = () => {
     resetClient();
     resetSale();
+    resetSaleServices();
     onClose();
     queryClient.removeQueries({ queryKey: ["client"] });
     navigate("/");

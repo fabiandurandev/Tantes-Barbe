@@ -16,12 +16,25 @@ export type ClientType = {
 
 type ItemProductType = {
   producto: number;
-  cantidad: number;
+  cantidad: number | undefined;
+};
+
+type ItemServiceType = {
+  servicio: number;
+  cantidad: number | undefined;
 };
 
 export type SaleType = {
   idCliente: number;
   idEmpleado: number;
   estadoVenta: string;
-  itemsProductos: ItemProductType[];
+  itemsProductos?: ItemProductType[];
+  itemsServicios?: ItemServiceType[];
+};
+
+export type ServiceType = {
+  id: number;
+  nombreServicio: string;
+  codigoServicio: number;
+  precioServicio: string;
 };

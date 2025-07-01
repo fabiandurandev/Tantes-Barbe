@@ -1,5 +1,8 @@
 import { Button, Flex, useDisclosure } from "@chakra-ui/react";
-import useProductsStore, { useClientStore } from "../../contexts/store";
+import useProductsStore, {
+  useClientStore,
+  UseServicesStore,
+} from "../../contexts/store";
 import CancelSaleModal from "../Modals/CancelSaleModal";
 import { UseCreateSale } from "../../hooks/UseCreateSale";
 import PayloadVenta from "../ProductSelector/PayloadVenta";
@@ -13,26 +16,40 @@ function ButtonsSend({}: Props) {
 
   const { products, quantity, resetSale } = useProductsStore();
 
+  const {
+    services,
+    quantity: quantityService,
+    resetSale: resetSaleService,
+  } = UseServicesStore();
+
   const { mutate: RegisterSale } = UseCreateSale();
 
   const { client, resetClient } = useClientStore();
-  const payload = PayloadVenta(client, 1, products, quantity);
+
+  const payload = PayloadVenta(
+    client,
+    1,
+    products,
+    services,
+    quantity,
+    quantityService
+  );
+
   const queryClient = useQueryClient();
+
   const navigate = useNavigate();
 
   const onClick = () => {
     RegisterSale(payload, {
       onSuccess: (data) => {
-        console.log("Venta registrada: ", data);
         resetClient();
         resetSale();
+        resetSaleService();
         onClose();
         queryClient.removeQueries({ queryKey: ["client"] });
         navigate("/");
       },
     });
-
-    products.length > 0 && console.log("productos Enviados");
   };
 
   return (
@@ -47,7 +64,7 @@ function ButtonsSend({}: Props) {
       >
         <Button
           onClick={() => onClick()}
-          disabled={products.length === 0}
+          disabled={products.length === 0 && services.length === 0}
           width={"80%"}
           _hover={{ opacity: 0.6 }}
           color={"white"}
