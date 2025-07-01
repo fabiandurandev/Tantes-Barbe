@@ -38,3 +38,12 @@ export type ServiceType = {
   codigoServicio: number;
   precioServicio: string;
 };
+
+export type SupplierType = {
+  id: number;
+  rifProveedor: number;
+  nombreProveedor: string;
+  emailProveedor: string;
+  telefonoProveedor: string;
+  direccionProveedor: string;
+};
