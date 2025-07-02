@@ -15,41 +15,55 @@ import {
   Heading,
   Radio,
   RadioGroup,
-  HStack
+  HStack,
+  Select,
 } from "@chakra-ui/react";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { addEmployeeSchema, type addEmployeeformType } from "../../schemas/AddEmployee";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-function AddEmployee() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [authorizationLevel, setAuthorizationLevel] = React.useState("1");
+type props = {
+  addEmployeeModal: {
+    isOpen: boolean;
+    onClose: () => void;
+  };
+};
 
+function AddEmployee({ addEmployeeModal }: props) {
+  const {register} = useForm<addEmployeeformType>({resolver: zodResolver(addEmployeeSchema)})
+  
   return (
     <>
-      <Button onClick={onOpen}>Agregar Empleado</Button>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={addEmployeeModal.isOpen}
+        onClose={addEmployeeModal.onClose}
+      >
         <ModalOverlay />
         <ModalContent borderRadius="20px">
-          <ModalHeader 
-            borderTopRadius="20px" 
-            bg="blue.600" 
+          <ModalHeader
+            borderTopRadius="20px"
+            bg="blue.600"
             color="white"
             fontSize="lg"
             fontWeight="bold"
           >
-            Agregar nuevos empleados
+            Agregar empleado
           </ModalHeader>
           <ModalCloseButton color="white" />
-          
+
           <ModalBody py={4}>
             <Stack spacing={4}>
-              <Heading as="h3" size="md" fontWeight="semibold">Datos del Empleado</Heading>
-              
+              <Heading as="h3" size="md" fontWeight="semibold">
+                Datos del Empleado
+              </Heading>
+
               <FormControl>
                 <FormLabel>Cédula:</FormLabel>
-                <Input 
+                <Input
+                {...register("cedulaEmpleado")}
                   type="number"
-                  placeholder="" 
+                  placeholder=""
                   borderWidth={2}
                   borderRadius="md"
                 />
@@ -57,9 +71,10 @@ function AddEmployee() {
 
               <FormControl>
                 <FormLabel>Teléfono:</FormLabel>
-                <Input 
+                <Input
+                {...register("telefonoEmpleado")}
                   type="number"
-                  placeholder="" 
+                  placeholder=""
                   borderWidth={2}
                   borderRadius="md"
                 />
@@ -68,17 +83,18 @@ function AddEmployee() {
               <FormControl>
                 <FormLabel>Nombre:</FormLabel>
                 <Input 
-                  placeholder="" 
-                  borderWidth={2}
-                  borderRadius="md"
-                />
+                {...register("nombreEmpleado")}
+                placeholder="" 
+                borderWidth={2}
+                borderRadius="md" />
               </FormControl>
 
               <FormControl>
                 <FormLabel>Email:</FormLabel>
-                <Input 
+                <Input
+                {...register("emailEmpleado")}
                   type="email"
-                  placeholder="" 
+                  placeholder=""
                   borderWidth={2}
                   borderRadius="md"
                 />
@@ -86,42 +102,37 @@ function AddEmployee() {
 
               {/* Nivel de autorizacion */}
 
-              <FormControl>
-                <FormLabel>Nivel de Autorización:</FormLabel>
-                <RadioGroup 
-                  value={authorizationLevel} 
-                  onChange={setAuthorizationLevel}
-                >
-                  <HStack spacing={5}>
-                    <Radio value="1">1</Radio>
-                    <Radio value="2">2</Radio>
-                  </HStack>
-                </RadioGroup>
-              </FormControl>
+              <FormLabel>Nivel de autorizacion</FormLabel>
+
+              <Select placeholder=" Seleccione una opcion ">
+                <option value="ADM"> Administrador </option>
+
+                <option value="EMP"> Empleado </option>
+              </Select>
 
               <FormControl>
                 <FormLabel>Dirección:</FormLabel>
                 <Input 
-                  placeholder="" 
-                  borderWidth={2}
-                  borderRadius="md"
-                />
+                {...register("direccionEmpleado")}
+                placeholder="" 
+                borderWidth={2} 
+                borderRadius="md" />
               </FormControl>
             </Stack>
           </ModalBody>
 
           <ModalFooter>
-            <Button 
-              colorScheme="blue" 
+            <Button
+              colorScheme="blue"
               mr={3}
               borderRadius="md"
               leftIcon={<span>+</span>}
             >
               Agregar
             </Button>
-            <Button 
-              variant="outline" 
-              onClick={onClose}
+            <Button
+              variant="outline"
+              onClick={addEmployeeModal.onClose}
               borderRadius="md"
             >
               CANCELAR

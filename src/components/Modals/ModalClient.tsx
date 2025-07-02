@@ -8,15 +8,15 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 
-type Props = {
-  isOpen: boolean;
-  onClose: () => void;
-};
-function ModalClient({ isOpen, onClose }: Props) {
+function ModalClient() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
+      <Button onClick={onOpen}>Open Modal</Button>
+
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent borderRadius={"10"}>

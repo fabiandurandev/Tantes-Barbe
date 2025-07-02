@@ -97,6 +97,32 @@ export const useClientStore = create<Client>((set) => ({
   resetClient: () => set(() => ({ client: undefined })),
 }));
 
+type Employee = {
+  Employee: EmployeeType | undefined;
+  setEmployee: (Employee: EmployeeType) => void;
+  resetEmployee: () => void;
+  
+};
+
+export const useEmployeeStore = create<Employee>((set)=>({
+  Employee: undefined,
+  setEmployee: (Employee) => set(() => ({ Employee: Employee })),
+  resetEmployee: () => set(() => ({ Employee: undefined}) )
+}));
+
+
+
+export type EmployeeType = {
+  id: number; 
+  nombreEmpleado: String;
+  cedulaEmpleado: number;
+  direccionEmpleado: String;
+  telefonoEmpleado: number;
+  emailEmpleado: String;
+  nivelAutorizacion: String;
+}
+
+
 type Service = {
   service: ServiceType | undefined;
   setService: (service: ServiceType) => void;

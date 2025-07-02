@@ -19,6 +19,27 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
+import {useForm } from "react-hook-form";
+import { useEmployeeStore } from "../../contexts/store";
+
+
+
+
+type Props = {
+  modal2: {
+    isOpen: boolean;
+    onOpen: () => void;
+    onClose: () => void;
+    onToggle: () => void;
+    isControlled
+
+  };
+
+
+}
+
 
 function UpdateEmployee() {
   const { isOpen, onOpen, onClose } = useDisclosure();
