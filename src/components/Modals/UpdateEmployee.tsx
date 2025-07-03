@@ -1,9 +1,7 @@
 import {
   Button,
-  Divider,
   FormControl,
   FormLabel,
-  HStack,
   Heading,
   Input,
   Modal,
@@ -13,22 +11,73 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Radio,
-  RadioGroup,
+  Select,
   Stack,
-  useDisclosure,
+  Text,
 } from "@chakra-ui/react";
-import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { useEmployeeStore } from "../../contexts/store";
+import { UseUpdateEmployee } from "../../hooks/UseUpdateEmployee";
+import {
+  addEmployeeSchema,
+  type addEmployeeFormType,
+} from "../../schemas/AddEmployee";
 
-function UpdateEmployee() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [authorizationLevel, setAuthorizationLevel] = React.useState("1");
+type Props = {
+  updateEmployeeModal: {
+    isOpen: boolean;
+    onClose: () => void;
+  };
+};
 
+function UpdateEmployee({ updateEmployeeModal }: Props) {
+  const {
+    register,
+    handleSubmit,
+    reset: resetForm,
+    formState: { errors },
+  } = useForm<addEmployeeFormType>({
+    resolver: zodResolver(addEmployeeSchema),
+  });
+
+  const cancelar = () => {
+    queryClient.removeQueries({ queryKey: ["employee"] });
+    updateEmployeeModal.onClose();
+    resetForm();
+  };
+
+  const { mutate, reset } = UseUpdateEmployee();
+
+  const queryClient = useQueryClient();
+
+  const { resetEmployee, employee } = useEmployeeStore();
+
+  const onSubmit = (employee: addEmployeeFormType) => {
+    const employeeUpdate = {
+      cedulaEmpleado: employee.cedulaEmpleado,
+      data: {
+        nombreEmpleado: employee.nombreEmpleado,
+        direccionEmpleado: employee.direccionEmpleado,
+        telefonoEmpleado: employee.telefonoEmpleado,
+        emailEmpleado: employee.emailEmpleado,
+        nivelAutorizacion: employee.nivelAutorizacion,
+      },
+    };
+    mutate(employeeUpdate, {
+      onSuccess: () => {
+        reset();
+        resetForm();
+        resetEmployee();
+        queryClient.removeQueries({ queryKey: ["employee"] });
+        updateEmployeeModal.onClose();
+      },
+    });
+  };
   return (
     <>
-      <Button onClick={onOpen}>Modificar Empleado</Button>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={updateEmployeeModal.isOpen} onClose={cancelar}>
         <ModalOverlay />
         <ModalContent borderRadius="20px">
           <ModalHeader
@@ -38,105 +87,114 @@ function UpdateEmployee() {
             fontSize="lg"
             fontWeight="bold"
           >
-            Modificar empleados
+            Agregar empleados
           </ModalHeader>
           <ModalCloseButton color="white" />
 
-          <ModalBody py={4}>
-            <Stack spacing={4}>
-              <Heading as="h3" size="md" fontWeight="semibold">
-                Datos del Empleado
-              </Heading>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <ModalBody py={4}>
+              <Stack spacing={4}>
+                <Heading as="h3" size="md" fontWeight="semibold">
+                  Datos del Empleado
+                </Heading>
+                <FormControl>
+                  <FormLabel>Cédula:</FormLabel>
+                  <Input
+                    defaultValue={employee?.cedulaEmpleado}
+                    readOnly
+                    {...register("cedulaEmpleado")}
+                    type="number"
+                    placeholder=""
+                    borderWidth={2}
+                    borderRadius="md"
+                  />
 
-              <FormControl>
-                <FormLabel>Cédula:</FormLabel>
-                <Input
-                  type="number"
-                  placeholder="###"
-                  borderWidth={2}
-                  borderRadius="md"
-                />
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>Teléfono:</FormLabel>
-                <Input
-                  type="number"
-                  placeholder="###"
-                  borderWidth={2}
-                  borderRadius="md"
-                />
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>Nombre:</FormLabel>
-                <Input
-                  placeholder="###"
-                  borderWidth={2}
-                  borderRadius="md"
-                  fontWeight="bold"
-                />
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>Email:</FormLabel>
-                <Input
-                  placeholder="###"
-                  borderWidth={2}
-                  borderRadius="md"
-                  fontWeight="bold"
-                />
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>Nivel de Autorización:</FormLabel>
-                <RadioGroup
-                  value={authorizationLevel}
-                  onChange={setAuthorizationLevel}
-                >
-                  <HStack spacing={5}>
-                    <Radio value="1">1</Radio>
-                    <Radio value="2">2</Radio>
-                  </HStack>
-                </RadioGroup>
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>Dirección:</FormLabel>
-                <Input placeholder="###" borderWidth={2} borderRadius="md" />
-              </FormControl>
-            </Stack>
-          </ModalBody>
-
-          <Divider />
-
-          <ModalFooter>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              borderRadius="md"
-              fontWeight="bold"
-            >
-              CONFIRMAR CAMBIOS
-            </Button>
-            <Button
-              colorScheme="red"
-              variant="outline"
-              mr={3}
-              borderRadius="md"
-              fontWeight="bold"
-            >
-              ELIMINAR
-            </Button>
-            <Button
-              variant="outline"
-              onClick={onClose}
-              borderRadius="md"
-              fontWeight="bold"
-            >
-              CANCELAR
-            </Button>
-          </ModalFooter>
+                  {errors && (
+                    <Text color={"red"}>{errors.cedulaEmpleado?.message}</Text>
+                  )}
+                  <FormLabel>Teléfono:</FormLabel>
+                  <Input
+                    defaultValue={employee?.telefonoEmpleado}
+                    {...register("telefonoEmpleado")}
+                    type="number"
+                    placeholder=""
+                    borderWidth={2}
+                    borderRadius="md"
+                  />
+                  {errors && (
+                    <Text color={"red"}>
+                      {errors.telefonoEmpleado?.message}
+                    </Text>
+                  )}
+                  <FormLabel>Nombre:</FormLabel>
+                  <Input
+                    defaultValue={employee?.nombreEmpleado}
+                    {...register("nombreEmpleado")}
+                    placeholder=""
+                    borderWidth={2}
+                    borderRadius="md"
+                  />
+                  {errors && (
+                    <Text color={"red"}>{errors.nombreEmpleado?.message}</Text>
+                  )}
+                  <FormLabel>Email:</FormLabel>
+                  <Input
+                    defaultValue={employee?.emailEmpleado}
+                    {...register("emailEmpleado")}
+                    type="email"
+                    placeholder=""
+                    borderWidth={2}
+                    borderRadius="md"
+                  />
+                  {errors && (
+                    <Text color={"red"}>{errors.emailEmpleado?.message}</Text>
+                  )}
+                  {/* Nivel de autorizacion */}
+                  <FormLabel>Nivel de Autorización:</FormLabel>
+                  <Select
+                    defaultValue={employee?.nivelAutorizacion}
+                    {...register("nivelAutorizacion")}
+                    placeholder="Seleccione una opción."
+                  >
+                    <option value="ADM">Administrador</option>
+                    <option value="EMP">Empleado</option>
+                  </Select>
+                  {errors && (
+                    <Text color={"red"}>
+                      {errors.nivelAutorizacion?.message}
+                    </Text>
+                  )}
+                  <FormLabel>Dirección:</FormLabel>
+                  <Input
+                    defaultValue={employee?.direccionEmpleado}
+                    {...register("direccionEmpleado")}
+                    placeholder=""
+                    borderWidth={2}
+                    borderRadius="md"
+                  />
+                  {errors && (
+                    <Text color={"red"}>
+                      {errors.direccionEmpleado?.message}
+                    </Text>
+                  )}
+                </FormControl>
+              </Stack>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                type="submit"
+                colorScheme="blue"
+                mr={3}
+                borderRadius="md"
+                leftIcon={<span>+</span>}
+              >
+                Agregar
+              </Button>
+              <Button variant="outline" onClick={cancelar} borderRadius="md">
+                CANCELAR
+              </Button>
+            </ModalFooter>
+          </form>
         </ModalContent>
       </Modal>
     </>
