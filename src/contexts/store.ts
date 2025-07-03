@@ -28,7 +28,7 @@ type ServicesStore = {
   setServices: (services: ServiceType[] | undefined) => void;
 };
 
-export const useProductsStore = create<ProductsStore>((set) => ({
+const useProductsStore = create<ProductsStore>((set) => ({
   products: [],
   add: (product) =>
     set((state) => ({ products: [...state.products, product] })),
@@ -110,17 +110,6 @@ export const UseServiceStoreUpdateDelete = create<Service>((set) => ({
   resetService: () => set(() => ({ service: undefined })),
 }));
 
-
-type productRetrieve = {
-  product: ProductType | undefined;
-  setProduct: (product: ProductType) => void;
-  resetProduct: () => void;
-};
-export const useProductRetrieveStore = create<productRetrieve>((set) => ({
-  product: undefined,
-  setProduct: (product) => set(() => ({ product: product })),
-  resetProduct: () => set(() => ({ product: undefined })),
-  
 type Suplier = {
   supplier: SupplierType | undefined;
   setSupplier: (supplier: SupplierType) => void;
@@ -167,7 +156,6 @@ export const UseEmployeesListStore = create<EmployeesListStoreType>((set) => ({
   setEmployeesList: (employeesList) =>
     set(() => ({ employees: employeesList })),
   resetEmployeesList: () => set(() => ({ employees: [] })),
-
 }));
 
 export default useProductsStore;
