@@ -47,3 +47,13 @@ export type SupplierType = {
   telefonoProveedor: string;
   direccionProveedor: string;
 };
+
+export type EmployeeType = {
+  id: number;
+  cedulaEmpleado: number;
+  nombreEmpleado: string;
+  direccionEmpleado: string;
+  telefonoEmpleado: string;
+  emailEmpleado: string;
+  nivelAutorizacion: string;
+};
