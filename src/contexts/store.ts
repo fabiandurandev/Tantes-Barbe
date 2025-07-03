@@ -136,6 +136,18 @@ export const UseSupplierListStore = create<SupplierList>((set) => ({
   resetSupplierList: () => set(() => ({ suppliers: [] })),
 }));
 
+type ClientsListType = {
+  clients: ClientType[];
+  setClientsList: (clientsList: ClientType[]) => void;
+  resetClientsList: () => void;
+};
+
+export const UseClientsListStore = create<ClientsListType>((set) => ({
+  clients: [],
+  setClientsList: (clientsList) => set(() => ({ clients: clientsList })),
+  resetClientsList: () => set(() => ({ clients: [] })),
+}));
+
 type EmployeeTypeStore = {
   employee: EmployeeType | undefined;
   setEmployee: (employee: EmployeeType) => void;
