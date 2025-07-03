@@ -1,5 +1,6 @@
 import type {
   ClientType,
+  EmployeeType,
   ProductType,
   ServiceType,
   SupplierType,
@@ -14,6 +15,7 @@ type ProductsStore = {
   addQuantity: (index: number, product: ProductType) => void;
   subtractQuantity: (i: number) => void;
   resetSale: () => void;
+  setProducts: (products: ProductType[] | undefined) => void;
 };
 
 type ServicesStore = {
@@ -55,6 +57,7 @@ const useProductsStore = create<ProductsStore>((set) => ({
       ),
     })),
   resetSale: () => set(() => ({ products: [], quantity: [] })),
+  setProducts: (products) => set(() => ({ products: products })),
 }));
 
 export const UseServicesStore = create<ServicesStore>((set) => ({
@@ -144,5 +147,43 @@ export const UseClientsListStore = create<ClientsListType>((set) => ({
   setClientsList: (clientsList) => set(() => ({ clients: clientsList })),
   resetClientsList: () => set(() => ({ clients: [] })),
 }));
+
+type EmployeeTypeStore = {
+  employee: EmployeeType | undefined;
+  setEmployee: (employee: EmployeeType) => void;
+  resetEmployee: () => void;
+};
+export const useEmployeeStore = create<EmployeeTypeStore>((set) => ({
+  employee: undefined,
+  setEmployee: (employee) => set(() => ({ employee: employee })),
+  resetEmployee: () => set(() => ({ employee: undefined })),
+}));
+
+type EmployeesListStoreType = {
+  employees: EmployeeType[];
+  setEmployeesList: (employeesList: EmployeeType[]) => void;
+  resetEmployeesList: () => void;
+};
+
+export const UseEmployeesListStore = create<EmployeesListStoreType>((set) => ({
+  employees: [],
+  setEmployeesList: (employeesList) =>
+    set(() => ({ employees: employeesList })),
+  resetEmployeesList: () => set(() => ({ employees: [] })),
+}));
+
+type RetrieveProductType = {
+  product: ProductType | undefined;
+  setProduct: (product: ProductType) => void;
+  resetProduct: () => void;
+};
+
+export const UseProductStoreUpdateDelete = create<RetrieveProductType>(
+  (set) => ({
+    product: undefined,
+    setProduct: (product) => set(() => ({ product: product })),
+    resetProduct: () => set(() => ({ product: undefined })),
+  })
+);
 
 export default useProductsStore;
