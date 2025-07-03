@@ -1,5 +1,9 @@
 import {
   Button,
+  Divider,
+  FormControl,
+  FormLabel,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -8,245 +12,149 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  FormControl,
-  FormLabel,
-  Input,
-  Heading,
-  Divider,
-  FormErrorMessage,
-  useToast,
-  Spinner,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { useClientStore } from "../../contexts/store";
-import { addClientSchema, type addClientFormType } from "../../schemas/AddClient";
-import { UseUpdateClient } from "../../pages/Clientes/UpdateClient";
-import { useFetchClientByCedula } from "../../hooks/useFetchClientByCedula";
-import type { ClientType } from "../../types";
-import axios from "axios";
-import React from "react";
+import {
+  useClientStore,
+  UseSupplierStoreUpdateDelete,
+} from "../../contexts/store";
+import { UseUpdateClient } from "../../hooks/UseUpdateClient";
+import {
+  addClientSchema,
+  type addClientFormType,
+} from "../../schemas/AddClient";
 
-interface UpdateClientProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+type Props = {
+  modalUpdateClient: {
+    isOpen: boolean;
+    onClose: () => void;
+  };
+};
 
-function UpdateClient({ isOpen, onClose }: UpdateClientProps) {
-  const toast = useToast();
-  const { client, setClient, resetClient } = useClientStore();
-  const [cedulaInput, setCedulaInput] = useState<number | undefined>(undefined);
-
-  // Buscar cliente al ingresar cédula
-  const { data, isFetching, error } = useFetchClientByCedula(cedulaInput);
-
-  // Actualizar store cuando se recibe el cliente
-  React.useEffect(() => {
-    if (data) setClient(data as ClientType);
-    else resetClient();
-  }, [data, setClient, resetClient]);
-
-  // Formulario
+function UpdateSupplier({ modalUpdateClient }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
+    reset: resetForm,
   } = useForm<addClientFormType>({
     resolver: zodResolver(addClientSchema),
-    values: client
-      ? {
-          cedulaCliente: client.cedulaCliente,
-          telefonoCliente: Number(client.telefonoCliente),
-          nombreCliente: client.nombreCliente,
-          direccionCliente: client.direccionCliente,
-        }
-      : undefined,
   });
+  const { mutate, reset } = UseUpdateClient();
 
-  // Mutación para actualizar
-  const mutation = UseUpdateClient();
+  const queryClient = useQueryClient();
 
-  // Actualizar datos
-  const onSubmit = async (values: addClientFormType) => {
-    mutation.mutate(
-      {
-        cedulaCliente: values.cedulaCliente,
-        data: {
-          nombreCliente: values.nombreCliente,
-          direccionCliente: values.direccionCliente,
-          telefonoCliente: values.telefonoCliente,
-        },
+  const { client } = useClientStore();
+
+  const { resetSupplier } = UseSupplierStoreUpdateDelete();
+
+  const onSubmit = (dataForm: addClientFormType) => {
+    const clientLoad = {
+      cedulaCliente: dataForm.cedulaCliente,
+      data: {
+        nombreCliente: dataForm.nombreCliente,
+        cedulaCliente: dataForm.cedulaCliente,
+        direccionCliente: dataForm.direccionCliente,
+        telefonoCliente: dataForm.telefonoCliente,
       },
-      {
-        onSuccess: () => {
-          toast({ title: "Cliente actualizado", status: "success" });
-          reset();
-          resetClient();
-          setCedulaInput(undefined);
-          onClose();
-        },
-        onError: () => {
-          toast({ title: "Error al actualizar", status: "error" });
-        },
-      }
-    );
+    };
+    mutate(clientLoad, {
+      onSuccess: () => {
+        reset();
+        resetForm();
+        queryClient.removeQueries({ queryKey: ["client"] });
+        modalUpdateClient.onClose();
+      },
+    });
   };
 
-  // Eliminar cliente
-  const handleDelete = async () => {
-  if (!client) return;
-  try {
-    await axios.patch(`http://localhost:8000/cliente/${client.cedulaCliente}`, {
-      estado: "Desactivo",
-    });
-    toast({ title: "Cliente Eliminado", status: "info" });
+  const onClose = () => {
+    modalUpdateClient.onClose();
+    resetSupplier();
+    resetForm();
+    queryClient.removeQueries({ queryKey: ["client"] });
     reset();
-    resetClient();
-    setCedulaInput(undefined);
-    onClose();
-  } catch (error) {
-    toast({ title: "Error al Eliminar", status: "error" });
-    console.error(error);
-  }
-};
-
-  // Limpiar todo al cerrar
-  const handleClose = () => {
-    reset();
-    resetClient();
-    setCedulaInput(undefined);
-    onClose();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
-      <ModalOverlay />
-      <ModalContent borderRadius={"20px"}>
-        <ModalHeader
-          borderTopRadius={"20px"}
-          bg={"blue.600"}
-          color="white"
-          fontSize="lg"
-          fontWeight="bold"
-        >
-          Modificar Cliente
-        </ModalHeader>
-        <ModalCloseButton color="white" />
-        <ModalBody py={4}>
-          <Stack spacing={4}>
-            <Heading as="h3" size="md" fontWeight="semibold">
-              Datos del Cliente
-            </Heading>
-            {/* Input para buscar por cédula */}
-            <FormControl isInvalid={!!errors.cedulaCliente}>
-              <FormLabel>Cédula</FormLabel>
-              <Input
-                type="number"
-                placeholder="V-########"
-                borderWidth={2}
-                fontWeight="bold"
-                borderRadius="md"
-                {...register("cedulaCliente", {
-                  valueAsNumber: true,
-                  onChange: (e) => {
-                    const value = Number(e.target.value);
-                    setCedulaInput(value > 0 ? value : undefined);
-                  },
-                })}
-                onBlur={(e) => {
-                  const value = Number(e.target.value);
-                  setCedulaInput(value > 0 ? value : undefined);
-                }}
-              />
-              <FormErrorMessage>
-                {errors.cedulaCliente && errors.cedulaCliente.message}
-              </FormErrorMessage>
-            </FormControl>
-            {/* Mostrar spinner mientras busca */}
-            {isFetching && <Spinner size="sm" />}
-            {/* Mostrar error si no existe */}
-            {cedulaInput && error && (
-              <span style={{ color: "red" }}>No se encontró el cliente.</span>
-            )}
-            {/* Mostrar el resto del formulario solo si hay cliente */}
-            {client && (
-              <>
-                <FormControl isInvalid={!!errors.telefonoCliente}>
-                  <FormLabel>Teléfono:</FormLabel>
+    <>
+      <Modal isOpen={modalUpdateClient.isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent borderRadius="20px">
+          <ModalHeader
+            borderTopRadius="20px"
+            bg="blue.600"
+            color="white"
+            fontSize="lg"
+            fontWeight="bold"
+          >
+            Modificar Proveedor
+          </ModalHeader>
+          <ModalCloseButton color="white" />
+
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <ModalBody py={4}>
+              <Stack spacing={4}>
+                <FormControl>
+                  <FormLabel fontWeight="bold">RIF:</FormLabel>
                   <Input
-                    type="number"
-                    {...register("telefonoCliente", { valueAsNumber: true })}
+                    {...register("cedulaCliente")}
+                    readOnly
+                    defaultValue={client?.cedulaCliente}
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  <FormErrorMessage>
-                    {errors.telefonoCliente && errors.telefonoCliente.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!!errors.nombreCliente}>
-                  <FormLabel>Nombre:</FormLabel>
-                  <Input
-                    {...register("nombreCliente")}
-                    borderWidth={2}
-                    borderRadius="md"
-                  />
-                  <FormErrorMessage>
-                    {errors.nombreCliente && errors.nombreCliente.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!!errors.direccionCliente}>
-                  <FormLabel>Dirección:</FormLabel>
+
+                  <FormLabel fontWeight="bold">Dirección:</FormLabel>
                   <Input
                     {...register("direccionCliente")}
+                    defaultValue={client?.direccionCliente}
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  <FormErrorMessage>
-                    {errors.direccionCliente && errors.direccionCliente.message}
-                  </FormErrorMessage>
+                  <FormLabel fontWeight="bold">Nombre:</FormLabel>
+                  <Input
+                    {...register("nombreCliente")}
+                    defaultValue={client?.nombreCliente}
+                    borderWidth={2}
+                    borderRadius="md"
+                  />
+                  <FormLabel fontWeight="bold">Teléfono:</FormLabel>
+                  <Input
+                    {...register("telefonoCliente")}
+                    defaultValue={client?.telefonoCliente}
+                    borderWidth={2}
+                    borderRadius="md"
+                  />
                 </FormControl>
-              </>
-            )}
-          </Stack>
-        </ModalBody>
-        <Divider />
-        <ModalFooter>
-          <Button
-            colorScheme="blue"
-            mr={3}
-            borderRadius="md"
-            fontWeight="bold"
-            onClick={handleSubmit(onSubmit)}
-            isLoading={isSubmitting || mutation.isPending}
-            isDisabled={!client}
-          >
-            CONFIRMAR CAMBIOS
-          </Button>
-          <Button
-            colorScheme="red"
-            variant="outline"
-            mr={3}
-            borderRadius="md"
-            fontWeight="bold"
-            onClick={handleDelete}
-            isDisabled={!client}
-          >
-            ELIMINAR
-          </Button>
-          <Button
-            variant="outline"
-            onClick={handleClose}
-            borderRadius="md"
-            fontWeight="bold"
-          >
-            CANCELAR
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+              </Stack>
+            </ModalBody>
+            <Divider />
+            <ModalFooter>
+              <Button
+                type="submit"
+                colorScheme="blue"
+                mr={3}
+                borderRadius="md"
+                fontWeight="bold"
+              >
+                CONFIRMAR CAMBIOS
+              </Button>
+              <Button
+                variant="outline"
+                onClick={onClose}
+                borderRadius="md"
+                fontWeight="bold"
+              >
+                CANCELAR
+              </Button>
+            </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }
 
-export default UpdateClient;
+export default UpdateSupplier;

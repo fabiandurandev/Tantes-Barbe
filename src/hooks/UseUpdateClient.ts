@@ -1,15 +1,22 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
+type dataClientType = {
+  nombreCliente: string;
+  cedulaCliente: number;
+  direccionCliente: string;
+  telefonoCliente: string;
+};
+
 async function UpdateClient({
   cedulaCliente,
   data,
 }: {
   cedulaCliente: number;
-  data: { nombreCliente: string; direccionCliente: string; telefonoCliente: number; };
+  data: dataClientType;
 }) {
   const response = await axios.patch(
-    `http://localhost:8000/clientes/${cedulaCliente}`,
+    `http://127.0.0.1:8000/clientes/${cedulaCliente}`,
     data
   );
   return response.data;

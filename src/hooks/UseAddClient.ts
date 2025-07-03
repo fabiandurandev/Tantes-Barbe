@@ -4,7 +4,7 @@ import axios from "axios";
 type addClient = {
   nombreCliente: string;
   cedulaCliente: number;
-  telefonoCliente: number;
+  telefonoCliente: string;
   direccionCliente: string;
 };
 

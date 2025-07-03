@@ -1,42 +1,49 @@
 import {
+  Box,
+  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Table,
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
-  ModalFooter,
-  Button,
-  Box,
-  Text,
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useClientStore } from "../../contexts/store";
+import { UseClientsListStore } from "../../contexts/store";
 
 type Props = {
-  isOpen: boolean;
-  onClose: () => void;
+  listClientModal: {
+    isOpen: boolean;
+    onClose: () => void;
+  };
 };
 
-function ListClientModal({ isOpen, onClose }: Props) {
-  const { clients, resetClients } = useClientStore();
+function ListClientModal({ listClientModal }: Props) {
+  const { clients, resetClientsList } = UseClientsListStore();
   const queryClient = useQueryClient();
 
   const handleClose = () => {
-    resetClients();
+    resetClientsList();
     queryClient.removeQueries({ queryKey: ["clientsList"] });
-    onClose();
+    listClientModal.onClose();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} size="4xl" isCentered>
+    <Modal
+      isOpen={listClientModal.isOpen}
+      onClose={listClientModal.onClose}
+      size="4xl"
+      isCentered
+    >
       <ModalOverlay />
       <ModalContent
         borderRadius="2xl"

@@ -22,37 +22,50 @@ import {
   type addClientFormType,
 } from "../../schemas/AddClient";
 
-interface AddClientProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+type Props = {
+  addClientModal: {
+    isOpen: boolean;
+    onClose: () => void;
+  };
+};
 
-function AddClient({ isOpen, onClose }: AddClientProps) {
+function AddClient({ addClientModal }: Props) {
   // React Hook Form + Zod
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
   } = useForm<addClientFormType>({
     resolver: zodResolver(addClientSchema),
   });
 
   // Custom hook para la mutación
-  const mutation = UseAddClient();
+  const { mutate } = UseAddClient();
 
   // Submit handler
   const onSubmit = async (data: addClientFormType) => {
-    mutation.mutate(data, {
+    const clientLoad = {
+      nombreCliente: data.nombreCliente,
+      cedulaCliente: data.cedulaCliente,
+      telefonoCliente: data.telefonoCliente,
+      direccionCliente: data.direccionCliente,
+    };
+    mutate(clientLoad, {
       onSuccess: () => {
         reset();
-        onClose();
+        addClientModal.onClose();
       },
     });
   };
 
+  const cancelar = () => {
+    addClientModal.onClose();
+    reset();
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={addClientModal.isOpen} onClose={cancelar}>
       <ModalOverlay />
       <ModalContent borderRadius={"20px"}>
         <ModalHeader
@@ -65,8 +78,8 @@ function AddClient({ isOpen, onClose }: AddClientProps) {
           Agregar nuevos clientes
         </ModalHeader>
         <ModalCloseButton color="white" />
-        <ModalBody py={4}>
-          <form id="add-client-form" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalBody py={4}>
             <Stack spacing={6}>
               <Heading as="h3" size="md" fontWeight="semibold">
                 Datos del Cliente
@@ -75,7 +88,7 @@ function AddClient({ isOpen, onClose }: AddClientProps) {
                 <FormLabel>Cédula:</FormLabel>
                 <Input
                   type="number"
-                  {...register("cedulaCliente", { valueAsNumber: true })}
+                  {...register("cedulaCliente")}
                   borderWidth={2}
                   borderRadius="md"
                 />
@@ -87,7 +100,7 @@ function AddClient({ isOpen, onClose }: AddClientProps) {
                 <FormLabel>Teléfono:</FormLabel>
                 <Input
                   type="number"
-                  {...register("telefonoCliente", { valueAsNumber: true })}
+                  {...register("telefonoCliente")}
                   borderWidth={2}
                   borderRadius="md"
                 />
@@ -120,32 +133,22 @@ function AddClient({ isOpen, onClose }: AddClientProps) {
                 </FormErrorMessage>
               </FormControl>
             </Stack>
-          </form>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            colorScheme="blue"
-            mr={3}
-            borderRadius="md"
-            leftIcon={<span>+</span>}
-            type="submit"
-            form="add-client-form"
-            isLoading={isSubmitting || mutation.isPending}
-          >
-            Agregar
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => {
-              reset();
-              onClose();
-            }}
-            borderRadius="md"
-            isDisabled={isSubmitting || mutation.isPending}
-          >
-            CANCELAR
-          </Button>
-        </ModalFooter>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              borderRadius="md"
+              leftIcon={<span>+</span>}
+              type="submit"
+            >
+              Agregar
+            </Button>
+            <Button variant="outline" onClick={cancelar} borderRadius="md">
+              CANCELAR
+            </Button>
+          </ModalFooter>
+        </form>
       </ModalContent>
     </Modal>
   );

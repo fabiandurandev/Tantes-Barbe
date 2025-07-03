@@ -86,16 +86,15 @@ export const UseServicesStore = create<ServicesStore>((set) => ({
   setServices: (services) => set(() => ({ services: services })),
 }));
 
-
 type Client = {
-  clients: ClientType[];
-  setClients: (clients: ClientType[]) => void;
-  resetClients: () => void;
+  client: ClientType | undefined;
+  setClient: (client: ClientType) => void;
+  resetClient: () => void;
 };
 export const useClientStore = create<Client>((set) => ({
-  clients: [],
-  setClients: (clients) => set(() => ({ clients: clients })),
-  resetClients: () => set(() => ({ clients: [] })),
+  client: undefined,
+  setClient: (client) => set(() => ({ client: client })),
+  resetClient: () => set(() => ({ client: undefined })),
 }));
 
 type Service = {
@@ -132,6 +131,18 @@ export const UseSupplierListStore = create<SupplierList>((set) => ({
   suppliers: [],
   setSupplierList: (supplierList) => set(() => ({ suppliers: supplierList })),
   resetSupplierList: () => set(() => ({ suppliers: [] })),
+}));
+
+type ClientsListType = {
+  clients: ClientType[];
+  setClientsList: (clientsList: ClientType[]) => void;
+  resetClientsList: () => void;
+};
+
+export const UseClientsListStore = create<ClientsListType>((set) => ({
+  clients: [],
+  setClientsList: (clientsList) => set(() => ({ clients: clientsList })),
+  resetClientsList: () => set(() => ({ clients: [] })),
 }));
 
 export default useProductsStore;
