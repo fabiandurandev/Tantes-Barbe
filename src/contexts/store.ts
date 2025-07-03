@@ -86,15 +86,16 @@ export const UseServicesStore = create<ServicesStore>((set) => ({
   setServices: (services) => set(() => ({ services: services })),
 }));
 
+
 type Client = {
-  client: ClientType | undefined;
-  setClient: (client: ClientType) => void;
-  resetClient: () => void;
+  clients: ClientType[];
+  setClients: (clients: ClientType[]) => void;
+  resetClients: () => void;
 };
 export const useClientStore = create<Client>((set) => ({
-  client: undefined,
-  setClient: (client) => set(() => ({ client: client })),
-  resetClient: () => set(() => ({ client: undefined })),
+  clients: [],
+  setClients: (clients) => set(() => ({ clients: clients })),
+  resetClients: () => set(() => ({ clients: [] })),
 }));
 
 type Service = {

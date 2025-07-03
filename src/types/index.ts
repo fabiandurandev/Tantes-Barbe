@@ -1,3 +1,5 @@
+import type { JSX } from "react/jsx-runtime";
+
 export type ProductType = {
   id: number;
   nombreProducto: string;
@@ -7,12 +9,15 @@ export type ProductType = {
 };
 
 export type ClientType = {
+  length: number;
+  map(arg0: (c: ClientType) => JSX.Element): import("react").ReactNode;
   id: number;
   nombreCliente: string;
   cedulaCliente: number;
   direccionCliente: string;
-  telefonoCliente: string;
+  telefonoCliente: number;
 };
+
 
 type ItemProductType = {
   producto: number;
