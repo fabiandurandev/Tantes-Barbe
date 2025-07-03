@@ -1,5 +1,6 @@
 import type {
   ClientType,
+  EmployeeType,
   ProductType,
   ServiceType,
   SupplierType,
@@ -131,6 +132,30 @@ export const UseSupplierListStore = create<SupplierList>((set) => ({
   suppliers: [],
   setSupplierList: (supplierList) => set(() => ({ suppliers: supplierList })),
   resetSupplierList: () => set(() => ({ suppliers: [] })),
+}));
+
+type EmployeeTypeStore = {
+  employee: EmployeeType | undefined;
+  setEmployee: (employee: EmployeeType) => void;
+  resetEmployee: () => void;
+};
+export const useEmployeeStore = create<EmployeeTypeStore>((set) => ({
+  employee: undefined,
+  setEmployee: (employee) => set(() => ({ employee: employee })),
+  resetEmployee: () => set(() => ({ employee: undefined })),
+}));
+
+type EmployeesListStoreType = {
+  employees: EmployeeType[];
+  setEmployeesList: (employeesList: EmployeeType[]) => void;
+  resetEmployeesList: () => void;
+};
+
+export const UseEmployeesListStore = create<EmployeesListStoreType>((set) => ({
+  employees: [],
+  setEmployeesList: (employeesList) =>
+    set(() => ({ employees: employeesList })),
+  resetEmployeesList: () => set(() => ({ employees: [] })),
 }));
 
 export default useProductsStore;
