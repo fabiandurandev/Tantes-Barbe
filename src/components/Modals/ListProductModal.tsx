@@ -14,7 +14,8 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import useProductsStore, { UseServicesStore } from "../../contexts/store";
+import useProductsStore from "../../contexts/store";
+import ButtonDelete from "../ButtonDelete/ButtonDelete";
 
 type Props = {
   listProductModal: {
@@ -83,6 +84,13 @@ function ListProductModal({ listProductModal }: Props) {
                         <Td>{p.nombreProducto}</Td>
                         <Td>{p.precioProducto}</Td>
                         <Td>{p.stock}</Td>
+                        <Td>
+                          <ButtonDelete
+                            reset={resetSale}
+                            name="producto"
+                            codigoServicio={p.codigoProducto}
+                          />
+                        </Td>
                       </Tr>
                     ))}
                 </Tbody>

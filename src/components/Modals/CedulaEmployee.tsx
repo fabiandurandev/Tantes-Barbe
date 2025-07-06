@@ -70,7 +70,6 @@ function CedulaEmployeeModal({
 
   useEffect(() => {
     if (dataService) {
-      console.log(dataService);
       setEmployee(dataService);
       UpdateEmployeeModal.onOpen();
       CedulaEmployeeModal.onClose();

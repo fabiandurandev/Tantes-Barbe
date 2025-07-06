@@ -1,55 +1,39 @@
 import { Button, Flex, useDisclosure } from "@chakra-ui/react";
-import useProductsStore, {
-  useClientStore,
-  UseServicesStore,
-} from "../../contexts/store";
-import CancelSaleModal from "../Modals/CancelSaleModal";
-import { UseCreateSale } from "../../hooks/UseCreateSale";
-import PayloadVenta from "../ProductSelector/PayloadVenta";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
+import useProductsStore, {
+  useSupplierProductsStore,
+  UseSupplierStoreUpdateDelete,
+} from "../../contexts/store";
+import PayloadCompra, { UseCreateCompra } from "../../hooks/UseCreateCompra";
+import CancelSaleModal from "../Modals/CancelSaleModal";
+import UseProductsSearch from "../../hooks/UseProductsSearch";
 
 type Props = {};
 
 function ButtonsSend({}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { products, quantity, resetSale } = useProductsStore();
+  const { products, quantity, resetSale } = useSupplierProductsStore();
 
-  const {
-    services,
-    quantity: quantityService,
-    resetSale: resetSaleService,
-  } = UseServicesStore();
+  const { mutate: RegisterCompra } = UseCreateCompra();
 
-  const { mutate: RegisterSale } = UseCreateSale();
+  const { supplier, resetSupplier } = UseSupplierStoreUpdateDelete();
 
-  const { client, resetClient } = useClientStore();
-
-  const payload = PayloadVenta(
-    client,
-    1,
-    products,
-    services,
-    quantity,
-    quantityService
-  );
+  const payload = PayloadCompra(supplier, products, quantity);
 
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
 
   const onClick = () => {
-    RegisterSale(payload, {
+    RegisterCompra(payload, {
       onSuccess: () => {
-        resetClient();
+        queryClient.resetQueries({ queryKey: ["supplier"] });
+        queryClient.resetQueries({ queryKey: ["products"] });
+        resetSupplier();
         resetSale();
-        resetSaleService();
         onClose();
-        queryClient.resetQueries({ queryKey: ["client"] });
-        queryClient.setQueryData(["products"], undefined);
-        queryClient.setQueryData(["services"], undefined);
-        navigate("/");
       },
     });
   };
@@ -66,7 +50,7 @@ function ButtonsSend({}: Props) {
       >
         <Button
           onClick={() => onClick()}
-          disabled={products.length === 0 && services.length === 0}
+          disabled={products.length === 0}
           width={"80%"}
           _hover={{ opacity: 0.6 }}
           color={"white"}

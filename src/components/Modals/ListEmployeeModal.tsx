@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { UseEmployeesListStore } from "../../contexts/store";
+import ButtonDelete from "../ButtonDelete/ButtonDelete";
 
 type Props = {
   modalListEmployee: {
@@ -74,7 +75,7 @@ function ListEmployeeModal({ modalListEmployee }: Props) {
                       Dirección
                     </Th>
                     <Th fontWeight={"extrabold"} fontSize={"medium"}>
-                      Nivel de autorización
+                      autorización
                     </Th>
                   </Tr>
                 </Thead>
@@ -88,6 +89,13 @@ function ListEmployeeModal({ modalListEmployee }: Props) {
                         <Td>{e.telefonoEmpleado}</Td>
                         <Td>{e.direccionEmpleado}</Td>
                         <Td>{e.nivelAutorizacion}</Td>
+                        <Td>
+                          <ButtonDelete
+                            name="empleado"
+                            codigoServicio={e.cedulaEmpleado}
+                            reset={resetEmployeesList}
+                          />
+                        </Td>
                       </Tr>
                     ))}
                 </Tbody>
