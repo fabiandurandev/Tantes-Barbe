@@ -11,7 +11,6 @@ type addEmployeeType = {
 };
 
 async function AddEmployeeFn(employee: addEmployeeType) {
-  console.log(employee);
   const response = await axios.post(
     "http://127.0.0.1:8000/empleados/",
     employee

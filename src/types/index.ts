@@ -18,7 +18,6 @@ export type ClientType = {
   telefonoCliente: number;
 };
 
-
 type ItemProductType = {
   producto: number;
   cantidad: number | undefined;
@@ -61,4 +60,10 @@ export type EmployeeType = {
   telefonoEmpleado: string;
   emailEmpleado: string;
   nivelAutorizacion: string;
+};
+
+export type CompraType = {
+  idProveedor: number;
+  estadoCompra: string;
+  itemsProductos?: ItemProductType[];
 };

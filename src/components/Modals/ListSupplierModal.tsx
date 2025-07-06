@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { UseSupplierListStore } from "../../contexts/store";
+import ButtonDelete from "../ButtonDelete/ButtonDelete";
 
 type Props = {
   modalListSupplier: {
@@ -84,6 +85,13 @@ function ListSupplierModal({ modalListSupplier }: Props) {
                         <Td>{s.emailProveedor}</Td>
                         <Td>{s.telefonoProveedor}</Td>
                         <Td>{s.direccionProveedor}</Td>
+                        <Td>
+                          <ButtonDelete
+                            name="proveedor"
+                            reset={resetSupplierList}
+                            codigoServicio={s.rifProveedor}
+                          />
+                        </Td>
                       </Tr>
                     ))}
                 </Tbody>

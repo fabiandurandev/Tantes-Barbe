@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { UseClientsListStore } from "../../contexts/store";
+import ButtonDelete from "../ButtonDelete/ButtonDelete";
 
 type Props = {
   listClientModal: {
@@ -84,6 +85,13 @@ function ListClientModal({ listClientModal }: Props) {
                       <Td>{c.nombreCliente}</Td>
                       <Td>{c.telefonoCliente}</Td>
                       <Td>{c.direccionCliente}</Td>
+                      <Td>
+                        <ButtonDelete
+                          reset={resetClientsList}
+                          codigoServicio={c.cedulaCliente}
+                          name="clientes"
+                        />
+                      </Td>
                     </Tr>
                   ))}
                 </Tbody>

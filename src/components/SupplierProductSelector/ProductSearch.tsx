@@ -39,14 +39,8 @@ function ProductSearch({}: Props) {
     refetch: refetchProduct,
   } = UseProductsSearch(busqueda);
 
-  const {
-    data: dataServices,
-
-    refetch: refetchService,
-  } = UseServiceSearch(busqueda);
-
-  const onSubmit = async () => {
-    await Promise.all([refetchProduct(), refetchService()]);
+  const onSubmit = () => {
+    refetchProduct();
     reset();
   };
 
@@ -64,7 +58,6 @@ function ProductSearch({}: Props) {
               <FaSearch size={20} color="#2E66E1" />
             </Button>
           </Flex>
-          <SkeletonProduct />
         </FormControl>
         <SkeletonProduct />
       </>
@@ -98,10 +91,10 @@ function ProductSearch({}: Props) {
           {errors.productName?.message && (
             <Text color={"red.400"}>{errors.productName?.message}</Text>
           )}
-          {dataProducts === undefined && dataServices === undefined ? (
+          {dataProducts === undefined ? (
             ""
-          ) : dataProducts?.length === 0 && dataServices?.length === 0 ? (
-            <Text>Productos y servicios no encontrados</Text>
+          ) : dataProducts?.length === 0 ? (
+            <Text>Productos no encontrados</Text>
           ) : (
             <Box
               border={"1px"}
@@ -110,10 +103,7 @@ function ProductSearch({}: Props) {
               overflow={"auto"}
               maxH={"370"}
             >
-              <ProductTableSearch
-                dataProducts={dataProducts}
-                dataServices={dataServices}
-              />
+              <ProductTableSearch dataProducts={dataProducts} />
             </Box>
           )}
         </FormControl>
