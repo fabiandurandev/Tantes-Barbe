@@ -13,6 +13,7 @@ import {
   FormLabel,
   Input,
   Heading,
+  Text
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import {
@@ -34,6 +35,7 @@ function AddProduct({ addProductModal }: Props) {
     register,
     reset: resetForm,
     handleSubmit,
+    formState:{errors} 
   } = useForm<addProductFormType>({
     resolver: zodResolver(addProductSchema),
   });
@@ -92,6 +94,7 @@ function AddProduct({ addProductModal }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
+                   {errors && ( <Text color={"red"}>{errors.codigoProducto?.message}</Text>)}
 
                   <FormLabel>Descripción:</FormLabel>
                   <Input
@@ -100,6 +103,7 @@ function AddProduct({ addProductModal }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
+                   {errors && ( <Text color={"red"}>{errors.nombreProducto?.message}</Text>)}
 
                   <FormLabel>Precio:</FormLabel>
                   <Input
@@ -109,6 +113,7 @@ function AddProduct({ addProductModal }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
+                   {errors && ( <Text color={"red"}>{errors.precioProducto?.message}</Text>)}
                 </FormControl>
               </Stack>
             </ModalBody>
