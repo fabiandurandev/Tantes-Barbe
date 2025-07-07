@@ -1,5 +1,3 @@
-import type { JSX } from "react/jsx-runtime";
-
 export type ProductType = {
   id: number;
   nombreProducto: string;
@@ -10,7 +8,6 @@ export type ProductType = {
 
 export type ClientType = {
   length: number;
-  map(arg0: (c: ClientType) => JSX.Element): import("react").ReactNode;
   id: number;
   nombreCliente: string;
   cedulaCliente: number;
@@ -66,4 +63,31 @@ export type CompraType = {
   idProveedor: number;
   estadoCompra: string;
   itemsProductos?: ItemProductType[];
+};
+
+export type ProductoType = {
+  producto: number;
+  nombreProducto: string;
+  precioProducto: string;
+  cantidad: number;
+  producto_subtotal: number;
+};
+
+export type ServicioType = {
+  servicio: number;
+  nombreServicio: string;
+  precioServicio: number;
+  cantidad: number;
+  servicio_subtotal: number;
+};
+
+export type VentaType = {
+  id: number;
+  fecha: string;
+  idCliente: ClientType;
+  idEmpleado: EmployeeType;
+  estadoVenta: string;
+  itemsProductos?: ProductoType[];
+  itemsServicios?: ServicioType[];
+  precio_total: number;
 };

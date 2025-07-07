@@ -19,6 +19,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import { NavLink as RouterLink } from "react-router";
 import logo from "../assets/logoPosibleFinal.png";
+import SeleccionarFecharModal from "./Ventas/SeleccionarFechaModal";
 
 interface Props {
   children: React.ReactNode;
@@ -33,7 +34,6 @@ const Links = [
   { uri: "/empleados", label: "Empleados" },
   { uri: "/proveedores", label: "Proveedores" },
   { uri: "/compras", label: "Compras" },
-
 ];
 
 const NavLink = (props: Props) => {
@@ -58,6 +58,8 @@ const NavLink = (props: Props) => {
 //const bg={useColorModeValue("gray.100", "gray.900")}
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const seleccionarFechaModal = useDisclosure();
 
   return (
     <>
@@ -108,8 +110,13 @@ export default function NavBar() {
                 <RxHamburgerMenu color="white" size="25" />
               </MenuButton>
               <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
+                <MenuItem onClick={seleccionarFechaModal.onOpen}>
+                  Reportes de Ventas
+                </MenuItem>
+                <SeleccionarFecharModal
+                  seleccionarFechaModal={seleccionarFechaModal}
+                />
+                <MenuItem>Reportes de Compras</MenuItem>
                 <MenuDivider />
                 <MenuItem>Link 3</MenuItem>
               </MenuList>

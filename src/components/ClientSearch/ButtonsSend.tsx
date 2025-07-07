@@ -47,8 +47,11 @@ function ButtonsSend({}: Props) {
         resetSaleService();
         onClose();
         queryClient.resetQueries({ queryKey: ["client"] });
-        queryClient.setQueryData(["products"], undefined);
+        queryClient.resetQueries({ queryKey: ["services"] });
         queryClient.setQueryData(["services"], undefined);
+        queryClient.resetQueries({ queryKey: ["products"] });
+        queryClient.setQueryData(["products"], undefined);
+
         navigate("/");
       },
     });

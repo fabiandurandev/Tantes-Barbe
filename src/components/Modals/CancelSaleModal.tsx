@@ -37,6 +37,12 @@ function CancelSaleModal({ isOpen, onClose }: Props) {
     resetSaleServices();
     onClose();
     queryClient.removeQueries({ queryKey: ["client"] });
+    queryClient.resetQueries({ queryKey: ["services"] });
+    queryClient.setQueryData(["services"], undefined);
+    queryClient.resetQueries({ queryKey: ["products"] });
+    queryClient.setQueryData(["products"], undefined);
+
+    navigate("/");
     navigate("/");
   };
 
