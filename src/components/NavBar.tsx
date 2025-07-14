@@ -20,6 +20,7 @@ import { FaRegUser } from "react-icons/fa";
 import { NavLink as RouterLink } from "react-router";
 import logo from "../assets/logoPosibleFinal.png";
 import SeleccionarFecharModal from "./Ventas/SeleccionarFechaModal";
+import SeleccionarFechaCompraModal from "./Compras/SeleccionarCompraModal";
 
 interface Props {
   children: React.ReactNode;
@@ -60,6 +61,8 @@ export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const seleccionarFechaModal = useDisclosure();
+
+  const seleccionarFechaCompraModal = useDisclosure();
 
   return (
     <>
@@ -116,9 +119,13 @@ export default function NavBar() {
                 <SeleccionarFecharModal
                   seleccionarFechaModal={seleccionarFechaModal}
                 />
-                <MenuItem>Reportes de Compras</MenuItem>
+                <MenuItem onClick={seleccionarFechaCompraModal.onOpen}>
+                  Reportes de Compras
+                </MenuItem>
+                <SeleccionarFechaCompraModal
+                  seleccionarFechaCompraModal={seleccionarFechaCompraModal}
+                />
                 <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
               </MenuList>
             </Menu>
           </Flex>

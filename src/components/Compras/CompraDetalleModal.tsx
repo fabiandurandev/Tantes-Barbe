@@ -20,19 +20,19 @@ import {
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef } from "react";
-import { UseDetalleVenta } from "./store";
+import { UseDetalleCompra } from "./store";
 
 type Props = {
-  detalleVentaModal: {
+  detalleCompraModal: {
     isOpen: boolean;
     onClose: () => void;
   };
 };
 
-export default function DetalleVentaModal({ detalleVentaModal }: Props) {
+export default function DetalleCompraModal({ detalleCompraModal }: Props) {
   const pdfRef = useRef<HTMLDivElement>(null);
 
-  const { venta } = UseDetalleVenta();
+  const { compra } = UseDetalleCompra();
 
   const generarPDF = async () => {
     const input = pdfRef.current;
@@ -46,13 +46,13 @@ export default function DetalleVentaModal({ detalleVentaModal }: Props) {
     const height = (canvas.height * width) / canvas.width;
 
     pdf.addImage(imgData, "PNG", 0, 0, width, height);
-    pdf.save(`${venta?.idCliente.nombreCliente} venta ${venta?.id}.pdf`);
+    pdf.save(`${compra?.idProveedor.nombreProveedor} venta ${compra?.id}.pdf`);
   };
 
   let fecha = undefined;
 
-  if (venta) {
-    fecha = new Date(venta?.fecha);
+  if (compra) {
+    fecha = new Date(compra?.fecha);
   }
 
   const fechaFormateada = fecha?.toLocaleString("es-VE", {
@@ -62,8 +62,8 @@ export default function DetalleVentaModal({ detalleVentaModal }: Props) {
 
   return (
     <Modal
-      isOpen={detalleVentaModal.isOpen}
-      onClose={detalleVentaModal.onClose}
+      isOpen={detalleCompraModal.isOpen}
+      onClose={detalleCompraModal.onClose}
       size="xl"
     >
       <ModalOverlay />
@@ -82,11 +82,9 @@ export default function DetalleVentaModal({ detalleVentaModal }: Props) {
           >
             <h2>Recibo</h2>
             <p>
-              <strong>Cliente:</strong> {venta?.idCliente?.nombreCliente}
+              <strong>Cliente:</strong> {compra?.idProveedor?.nombreProveedor}
             </p>
-            <p>
-              <strong>Empleado:</strong> {venta?.idEmpleado?.nombreEmpleado}
-            </p>
+
             <p>
               <strong>Fecha:</strong> {fechaFormateada}
             </p>
@@ -109,8 +107,8 @@ export default function DetalleVentaModal({ detalleVentaModal }: Props) {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {venta?.itemsProductos !== undefined &&
-                    venta.itemsProductos.map((item) => (
+                  {compra?.itemsProductosCompra !== undefined &&
+                    compra.itemsProductosCompra.map((item) => (
                       <Tr key={item.producto}>
                         <Td>{item.nombreProducto}</Td>
                         <Td>{item.precioProducto}</Td>
@@ -118,21 +116,11 @@ export default function DetalleVentaModal({ detalleVentaModal }: Props) {
                         <Td>{item.producto_subtotal}</Td>
                       </Tr>
                     ))}
-
-                  {venta?.itemsServicios !== undefined &&
-                    venta.itemsServicios.map((item) => (
-                      <Tr key={item.servicio}>
-                        <Td>{item.nombreServicio}</Td>
-                        <Td>{item.precioServicio}</Td>
-                        <Td>{item.cantidad}</Td>
-                        <Td>{item.servicio_subtotal}</Td>
-                      </Tr>
-                    ))}
                 </Tbody>
               </Table>
             </TableContainer>
             <p>
-              <strong>Total:</strong> ${venta?.precio_total}
+              <strong>Total:</strong> ${compra?.precio_total}
             </p>
           </div>
         </ModalBody>
@@ -140,7 +128,7 @@ export default function DetalleVentaModal({ detalleVentaModal }: Props) {
           <Button colorScheme="blue" onClick={generarPDF}>
             Descargar PDF
           </Button>
-          <Button onClick={detalleVentaModal.onClose} ml={3}>
+          <Button onClick={detalleCompraModal.onClose} ml={3}>
             Cerrar
           </Button>
         </ModalFooter>

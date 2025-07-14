@@ -10,30 +10,34 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
-import { UseAnulVenta } from "../../hooks/UseAnulVenta";
+import { UseAnulCompra } from "../../hooks/UseAnulCompra";
 
 type Props = {
-  anularVentaModal: {
+  anularCompraModal: {
     isOpen: boolean;
     onClose: () => void;
   };
-  listVentaModal: {
+  listCompraModal: {
     isOpen: boolean;
     onClose: () => void;
   };
-  idVenta: number;
+  idCompra: number;
 };
 
-function CancelSaleModal({ anularVentaModal, idVenta, listVentaModal }: Props) {
+function CancelCompraModal({
+  anularCompraModal,
+  idCompra,
+  listCompraModal,
+}: Props) {
   const navigate = useNavigate();
 
-  const { mutate: AnularVenta } = UseAnulVenta();
+  const { mutate: AnularCompra } = UseAnulCompra();
 
   const onClick = () => {
-    AnularVenta(idVenta, {
+    AnularCompra(idCompra, {
       onSuccess: () => {
-        anularVentaModal.onClose();
-        listVentaModal.onClose();
+        anularCompraModal.onClose();
+        listCompraModal.onClose();
         navigate("/");
       },
     });
@@ -42,8 +46,8 @@ function CancelSaleModal({ anularVentaModal, idVenta, listVentaModal }: Props) {
   return (
     <>
       <Modal
-        isOpen={anularVentaModal.isOpen}
-        onClose={anularVentaModal.onClose}
+        isOpen={anularCompraModal.isOpen}
+        onClose={anularCompraModal.onClose}
       >
         <ModalOverlay />
         <ModalContent>
@@ -56,14 +60,14 @@ function CancelSaleModal({ anularVentaModal, idVenta, listVentaModal }: Props) {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody justifyItems={"center"}>
-            <Text>¿Desea ANULAR la venta {idVenta}? </Text>
+            <Text>¿Desea ANULAR la compra #{idCompra}?</Text>
           </ModalBody>
 
           <ModalFooter justifyContent={"center"}>
             <Button colorScheme="blue" mr={3} onClick={() => onClick()}>
               Aceptar
             </Button>
-            <Button onClick={anularVentaModal.onClose} variant="ghost">
+            <Button onClick={anularCompraModal.onClose} variant="ghost">
               Cancelar
             </Button>
           </ModalFooter>
@@ -73,4 +77,4 @@ function CancelSaleModal({ anularVentaModal, idVenta, listVentaModal }: Props) {
   );
 }
 
-export default CancelSaleModal;
+export default CancelCompraModal;
