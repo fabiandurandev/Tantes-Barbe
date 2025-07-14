@@ -22,7 +22,7 @@ function ButtonDelete({ codigoServicio, name, reset }: Props) {
     <>
       <Button
         onClick={modalDecision.onOpen}
-        _hover="none"
+        _hover={{}}
         height={"100%"}
         w={"100%"}
         p={0}

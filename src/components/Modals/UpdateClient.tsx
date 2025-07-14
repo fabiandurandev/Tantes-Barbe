@@ -16,10 +16,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import {
-  useClientStore,
-  UseSupplierStoreUpdateDelete,
-} from "../../contexts/store";
+import { useClientStore } from "../../contexts/store";
 import { UseUpdateClient } from "../../hooks/UseUpdateClient";
 import {
   addClientSchema,
@@ -45,9 +42,7 @@ function UpdateSupplier({ modalUpdateClient }: Props) {
 
   const queryClient = useQueryClient();
 
-  const { client } = useClientStore();
-
-  const { resetSupplier } = UseSupplierStoreUpdateDelete();
+  const { client, resetClient } = useClientStore();
 
   const onSubmit = (dataForm: addClientFormType) => {
     const clientLoad = {
@@ -71,7 +66,7 @@ function UpdateSupplier({ modalUpdateClient }: Props) {
 
   const onClose = () => {
     modalUpdateClient.onClose();
-    resetSupplier();
+    resetClient();
     resetForm();
     queryClient.removeQueries({ queryKey: ["client"] });
     reset();

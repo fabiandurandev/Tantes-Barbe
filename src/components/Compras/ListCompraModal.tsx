@@ -21,42 +21,42 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { IoEye } from "react-icons/io5";
 import { TiCancel } from "react-icons/ti";
-import type { VentaType } from "../../types";
-import { UseDetalleVenta, UseVentasStore } from "./store";
-import DetalleVentaModal from "./VentaDetalleModal";
+import type { ComprasType } from "../../types";
+import { UseComprasStore, UseDetalleCompra } from "./store";
 
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import DetalleCompraModal from "./CompraDetalleModal";
+import CancelCompraModal from "./AnularCompraModal";
 import { useState } from "react";
-import CancelSaleModal from "./AnularVentaModal";
 
 type Props = {
-  ListVentaModal: {
+  ListCompraModal: {
     isOpen: boolean;
     onClose: () => void;
   };
 };
 
-function ListVentaModal({ ListVentaModal }: Props) {
-  const { ventas, resetVentas } = UseVentasStore();
+function ListCompraModal({ ListCompraModal }: Props) {
+  const { compras, resetCompras } = UseComprasStore();
 
-  const { setVenta } = UseDetalleVenta();
+  const { setCompra } = UseDetalleCompra();
 
   const queryClient = useQueryClient();
 
-  const detalleVentaModal = useDisclosure();
+  const detalleCompraModal = useDisclosure();
 
-  const anularVentaModal = useDisclosure();
+  const anularCompraModal = useDisclosure();
 
   const onClose = () => {
     queryClient.removeQueries({ queryKey: ["ventasFecha"] });
-    resetVentas();
-    ListVentaModal.onClose();
+    resetCompras();
+    ListCompraModal.onClose();
   };
 
-  const verDetalleVenta = (venta: VentaType) => {
-    setVenta(venta);
-    detalleVentaModal.onOpen();
+  const verDetalleCompra = (compra: ComprasType) => {
+    setCompra(compra);
+    detalleCompraModal.onOpen();
   };
 
   const nueva = (fecha: string) => {
@@ -71,21 +71,21 @@ function ListVentaModal({ ListVentaModal }: Props) {
     const pdf = new jsPDF();
 
     const columnas = [
-      "Venta",
+      "Compra",
       "Fecha",
-      "Cliente",
-      "Cédula Cliente",
+      "Proveedor",
+      "Rif proveedor",
       "Total",
       "Estado",
     ];
 
-    const filas = ventas?.map((v) => [
-      v.id,
-      nueva(v.fecha),
-      v.idCliente.nombreCliente,
-      v.idCliente.cedulaCliente,
-      `$${v.precio_total}`,
-      v.estadoVenta,
+    const filas = compras?.map((c) => [
+      c.id,
+      nueva(c.fecha),
+      c.idProveedor.nombreProveedor,
+      c.idProveedor.rifProveedor,
+      `$${c.precio_total}`,
+      c.estadoCompra,
     ]);
 
     autoTable(pdf, {
@@ -104,19 +104,19 @@ function ListVentaModal({ ListVentaModal }: Props) {
       margin: { top: 20 },
     });
 
-    pdf.save("reporte de ventas.pdf");
+    pdf.save("reporte de compras.pdf");
   };
 
-  const [idVentaAnular, setIdVentaAnular] = useState<number>(0);
+  const [idCompraAnular, setIdCompraAnular] = useState<number>(0);
 
-  const anularVenta = (idVenta: number) => {
-    anularVentaModal.onOpen();
-    setIdVentaAnular(idVenta);
+  const anularCompra = (idCompra: number) => {
+    anularCompraModal.onOpen();
+    setIdCompraAnular(idCompra);
   };
 
   return (
     <>
-      <Modal isOpen={ListVentaModal.isOpen} onClose={onClose}>
+      <Modal isOpen={ListCompraModal.isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent borderRadius="2xl" width="85vw" height="70vh" maxW="none">
           <ModalHeader
@@ -125,7 +125,7 @@ function ListVentaModal({ ListVentaModal }: Props) {
             bgColor="blue.600"
             textAlign="center"
           >
-            VENTAS
+            COMPRAS
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody overflow="auto">
@@ -134,16 +134,16 @@ function ListVentaModal({ ListVentaModal }: Props) {
                 <Thead>
                   <Tr fontWeight="extrabold" fontSize="2xl">
                     <Th fontWeight="extrabold" fontSize="medium">
-                      Venta
+                      Compra
                     </Th>
                     <Th fontWeight="extrabold" fontSize="medium">
                       Fecha
                     </Th>
                     <Th fontWeight="extrabold" fontSize="medium">
-                      Cliente
+                      Proveedor
                     </Th>
                     <Th fontWeight="extrabold" fontSize="medium">
-                      Cédula Cliente
+                      Rif proveedor
                     </Th>
                     <Th fontWeight="extrabold" fontSize="medium">
                       Total
@@ -157,29 +157,31 @@ function ListVentaModal({ ListVentaModal }: Props) {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {ventas !== undefined &&
-                    ventas.map((v) => (
-                      <Tr key={v.id}>
-                        <Td>{v.id}</Td>
-                        <Td>{nueva(v.fecha)}</Td>
-                        <Td>{v.idCliente.nombreCliente}</Td>
-                        <Td>{v.idCliente.cedulaCliente}</Td>
-                        <Td>${v.precio_total}</Td>
-                        <Td>{v.estadoVenta}</Td>
+                  {compras !== undefined &&
+                    compras.map((c) => (
+                      <Tr key={c.id}>
+                        <Td>{c.id}</Td>
+                        <Td>{nueva(c.fecha)}</Td>
+                        <Td>{c.idProveedor.nombreProveedor}</Td>
+                        <Td>{c.idProveedor.rifProveedor}</Td>
+                        <Td>${c.precio_total}</Td>
+                        <Td>{c.estadoCompra}</Td>
                         <Td>
-                          <Button onClick={() => verDetalleVenta(v)} mr={2}>
+                          <Button onClick={() => verDetalleCompra(c)} mr={2}>
                             <Flex gap={1} alignItems="center">
                               <Box>Ver</Box>
                               <IoEye />
                             </Flex>
                           </Button>
-                          {v.estadoVenta === "VAL" && (
-                            <Button onClick={() => anularVenta(v.id)}>
+                          {c.estadoCompra === "VAL" ? (
+                            <Button onClick={() => anularCompra(c.id)}>
                               <Flex gap={1} alignItems="center">
                                 <Box>Anular</Box>
                                 <TiCancel />
                               </Flex>
                             </Button>
+                          ) : (
+                            ""
                           )}
                         </Td>
                       </Tr>
@@ -201,14 +203,14 @@ function ListVentaModal({ ListVentaModal }: Props) {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <DetalleVentaModal detalleVentaModal={detalleVentaModal} />
-      <CancelSaleModal
-        listVentaModal={ListVentaModal}
-        idVenta={idVentaAnular}
-        anularVentaModal={anularVentaModal}
+      <DetalleCompraModal detalleCompraModal={detalleCompraModal} />
+      <CancelCompraModal
+        idCompra={idCompraAnular}
+        anularCompraModal={anularCompraModal}
+        listCompraModal={ListCompraModal}
       />
     </>
   );
 }
 
-export default ListVentaModal;
+export default ListCompraModal;

@@ -15,7 +15,7 @@ export type ClientType = {
   telefonoCliente: number;
 };
 
-type ItemProductType = {
+export type ItemProductType = {
   producto: number;
   cantidad: number | undefined;
 };
@@ -89,5 +89,14 @@ export type VentaType = {
   estadoVenta: string;
   itemsProductos?: ProductoType[];
   itemsServicios?: ServicioType[];
+  precio_total: number;
+};
+
+export type ComprasType = {
+  id: number;
+  fecha: string;
+  idProveedor: SupplierType;
+  estadoCompra: string;
+  itemsProductosCompra?: ProductoType[];
   precio_total: number;
 };
