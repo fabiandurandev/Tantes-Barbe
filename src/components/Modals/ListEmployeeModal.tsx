@@ -91,6 +91,7 @@ function ListEmployeeModal({ modalListEmployee }: Props) {
                         <Td>{e.nivelAutorizacion}</Td>
                         <Td>
                           <ButtonDelete
+                            modalList={modalListEmployee}
                             name="empleado"
                             codigoServicio={e.cedulaEmpleado}
                             reset={resetEmployeesList}

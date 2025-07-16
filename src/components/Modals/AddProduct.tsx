@@ -1,5 +1,10 @@
 import {
   Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -7,21 +12,17 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
   Stack,
-  FormControl,
-  FormLabel,
-  Input,
-  Heading,
-  Text
+  useToast,
+
 } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { UseAddProduct } from "../../hooks/UseAddProduct";
 import {
   addProductSchema,
   type addProductFormType,
 } from "../../schemas/AddProductSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UseAddProduct } from "../../hooks/UseAddProduct";
 
 type Props = {
   addProductModal: {
@@ -35,12 +36,15 @@ function AddProduct({ addProductModal }: Props) {
     register,
     reset: resetForm,
     handleSubmit,
-    formState:{errors} 
+    formState: { errors },
+
   } = useForm<addProductFormType>({
     resolver: zodResolver(addProductSchema),
   });
 
   const { mutate, reset } = UseAddProduct();
+
+  const toast = useToast();
 
   const onSubmit = (dataProduct: addProductFormType) => {
     const productLoad = {
@@ -55,6 +59,24 @@ function AddProduct({ addProductModal }: Props) {
         addProductModal.onClose();
         resetForm();
         reset();
+        toast({
+          title: "Producto agregado",
+          description: "Se ha agregado el producto con éxito!",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
+      },
+      onError: () => {
+        toast({
+          title: "Error al agregar producto.",
+          description: "El código del producto ya existe, verifique el código.",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
       },
     });
   };
@@ -86,7 +108,7 @@ function AddProduct({ addProductModal }: Props) {
                   Datos del Producto
                 </Heading>
 
-                <FormControl>
+                <FormControl isInvalid={!!errors.codigoProducto}>
                   <FormLabel>Código:</FormLabel>
                   <Input
                     {...register("codigoProducto")}
@@ -94,8 +116,13 @@ function AddProduct({ addProductModal }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                   {errors && ( <Text color={"red"}>{errors.codigoProducto?.message}</Text>)}
+                  <FormErrorMessage>
+                    {errors.codigoProducto && errors.codigoProducto.message}
+                  </FormErrorMessage>
+                </FormControl>
 
+
+                <FormControl isInvalid={!!errors.nombreProducto}>
                   <FormLabel>Descripción:</FormLabel>
                   <Input
                     {...register("nombreProducto")}
@@ -103,8 +130,13 @@ function AddProduct({ addProductModal }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                   {errors && ( <Text color={"red"}>{errors.nombreProducto?.message}</Text>)}
+                  <FormErrorMessage>
+                    {errors.nombreProducto && errors.nombreProducto.message}
+                  </FormErrorMessage>
+                </FormControl>
 
+
+                <FormControl isInvalid={!!errors.precioProducto}>
                   <FormLabel>Precio:</FormLabel>
                   <Input
                     {...register("precioProducto")}
@@ -113,7 +145,10 @@ function AddProduct({ addProductModal }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                   {errors && ( <Text color={"red"}>{errors.precioProducto?.message}</Text>)}
+                  <FormErrorMessage>
+                    {errors.precioProducto && errors.precioProducto.message}
+                  </FormErrorMessage>
+
                 </FormControl>
               </Stack>
             </ModalBody>

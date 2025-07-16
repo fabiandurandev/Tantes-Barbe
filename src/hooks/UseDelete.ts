@@ -19,7 +19,6 @@ export const UseDelete = () => {
     onSuccess: () => {
       // Opcional: invalidar lista para actualizar después del delete
       queryClient.removeQueries({ queryKey: ["servicesList"] });
-      navigate("/");
     },
   });
 };

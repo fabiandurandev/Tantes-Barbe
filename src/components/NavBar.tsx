@@ -21,6 +21,7 @@ import { NavLink as RouterLink } from "react-router";
 import logo from "../assets/logoPosibleFinal.png";
 import SeleccionarFecharModal from "./Ventas/SeleccionarFechaModal";
 import SeleccionarFechaCompraModal from "./Compras/SeleccionarCompraModal";
+import useAuthStore from "../contexts/authStore";
 
 interface Props {
   children: React.ReactNode;
@@ -64,6 +65,8 @@ export default function NavBar() {
 
   const seleccionarFechaCompraModal = useDisclosure();
 
+  const logout = useAuthStore((state) => state.logout);
+
   return (
     <>
       <Box bgGradient="linear(to-r, #354154, #2E66E1, #6CA4F3)" px={4}>
@@ -94,6 +97,7 @@ export default function NavBar() {
           </HStack>
           <Flex gap="5" alignItems={"center"} justifyContent={"space-between"}>
             <Button
+              onClick={logout}
               variant={"solid"}
               //colorScheme={"teal"}
               size={"sm"}

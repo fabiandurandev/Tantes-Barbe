@@ -2,6 +2,7 @@ import {
   Button,
   Divider,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Modal,
@@ -12,6 +13,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -37,6 +39,7 @@ function UpdateSupplier({ modalUpdateSupplier, supplier }: Props) {
     register,
     handleSubmit,
     reset: resetForm,
+    formState: { errors },
   } = useForm<AddSupplierFormType>({
     resolver: zodResolver(addSupplierSchema),
   });
@@ -45,6 +48,8 @@ function UpdateSupplier({ modalUpdateSupplier, supplier }: Props) {
   const queryClient = useQueryClient();
 
   const { resetSupplier } = UseSupplierStoreUpdateDelete();
+
+  const toast = useToast();
 
   const onSubmit = (supplier: AddSupplierFormType) => {
     const supplierUpdated = {
@@ -66,6 +71,15 @@ function UpdateSupplier({ modalUpdateSupplier, supplier }: Props) {
           reset();
           resetForm();
           queryClient.removeQueries({ queryKey: ["supplier"] });
+          resetSupplier();
+          toast({
+            title: "Proveedor actualizado.",
+            description: "Se ha actualizado el proveedor de manera existosa!",
+            status: "success",
+            duration: 4000,
+            isClosable: true,
+            position: "top",
+          });
           modalUpdateSupplier.onClose();
         },
       }
@@ -109,19 +123,9 @@ function UpdateSupplier({ modalUpdateSupplier, supplier }: Props) {
                     borderRadius="md"
                   />
                   <FormLabel fontWeight="bold">Email:</FormLabel>
-                  <Input
-                    {...register("emailProveedor")}
-                    defaultValue={supplier.emailProveedor}
-                    borderWidth={2}
-                    borderRadius="md"
-                  />
-                  <FormLabel fontWeight="bold">Dirección:</FormLabel>
-                  <Input
-                    {...register("direccionProveedor")}
-                    defaultValue={supplier.direccionProveedor}
-                    borderWidth={2}
-                    borderRadius="md"
-                  />
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.nombreProveedor}>
                   <FormLabel fontWeight="bold">Nombre:</FormLabel>
                   <Input
                     {...register("nombreProveedor")}
@@ -129,14 +133,49 @@ function UpdateSupplier({ modalUpdateSupplier, supplier }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
+                  <FormErrorMessage>
+                    {errors.nombreProveedor && errors.nombreProveedor.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.emailProveedor}>
+                  <Input
+                    {...register("emailProveedor")}
+                    defaultValue={supplier.emailProveedor}
+                    borderWidth={2}
+                    borderRadius="md"
+                  />
+                  <FormErrorMessage>
+                    {errors.emailProveedor && errors.emailProveedor.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.telefonoProveedor}>
                   <FormLabel fontWeight="bold">Teléfono:</FormLabel>
                   <Input
                     {...register("telefonoProveedor")}
                     defaultValue={supplier.telefonoProveedor}
-                    placeholder="##########"
                     borderWidth={2}
                     borderRadius="md"
                   />
+                  <FormErrorMessage>
+                    {errors.telefonoProveedor &&
+                      errors.telefonoProveedor.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.direccionProveedor}>
+                  <FormLabel fontWeight="bold">Dirección:</FormLabel>
+                  <Input
+                    {...register("direccionProveedor")}
+                    defaultValue={supplier.direccionProveedor}
+                    borderWidth={2}
+                    borderRadius="md"
+                  />
+                  <FormErrorMessage>
+                    {errors.direccionProveedor &&
+                      errors.direccionProveedor.message}
+                  </FormErrorMessage>
                 </FormControl>
               </Stack>
             </ModalBody>
@@ -149,7 +188,7 @@ function UpdateSupplier({ modalUpdateSupplier, supplier }: Props) {
                 borderRadius="md"
                 fontWeight="bold"
               >
-                CONFIRMAR CAMBIOS
+                Actualizar
               </Button>
               <Button
                 variant="outline"
@@ -157,7 +196,7 @@ function UpdateSupplier({ modalUpdateSupplier, supplier }: Props) {
                 borderRadius="md"
                 fontWeight="bold"
               >
-                CANCELAR
+                Cancelar
               </Button>
             </ModalFooter>
           </form>

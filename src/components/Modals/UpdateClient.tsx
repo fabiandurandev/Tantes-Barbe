@@ -2,6 +2,7 @@ import {
   Button,
   Divider,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Modal,
@@ -12,6 +13,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -35,6 +37,7 @@ function UpdateSupplier({ modalUpdateClient }: Props) {
     register,
     handleSubmit,
     reset: resetForm,
+    formState: { errors },
   } = useForm<addClientFormType>({
     resolver: zodResolver(addClientSchema),
   });
@@ -43,6 +46,8 @@ function UpdateSupplier({ modalUpdateClient }: Props) {
   const queryClient = useQueryClient();
 
   const { client, resetClient } = useClientStore();
+
+  const toast = useToast();
 
   const onSubmit = (dataForm: addClientFormType) => {
     const clientLoad = {
@@ -59,7 +64,16 @@ function UpdateSupplier({ modalUpdateClient }: Props) {
         reset();
         resetForm();
         queryClient.removeQueries({ queryKey: ["client"] });
+        resetClient();
         modalUpdateClient.onClose();
+        toast({
+          title: "Cliente actualizado.",
+          description: "Se han actualizado los datos del cliente con éxtio!",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
       },
     });
   };
@@ -91,23 +105,16 @@ function UpdateSupplier({ modalUpdateClient }: Props) {
           <form onSubmit={handleSubmit(onSubmit)}>
             <ModalBody py={4}>
               <Stack spacing={4}>
-                <FormControl>
-                  <FormLabel fontWeight="bold">RIF:</FormLabel>
-                  <Input
-                    {...register("cedulaCliente")}
-                    readOnly
-                    defaultValue={client?.cedulaCliente}
-                    borderWidth={2}
-                    borderRadius="md"
-                  />
+                <FormLabel fontWeight="bold">Cédula:</FormLabel>
+                <Input
+                  {...register("cedulaCliente")}
+                  readOnly
+                  defaultValue={client?.cedulaCliente}
+                  borderWidth={2}
+                  borderRadius="md"
+                />
 
-                  <FormLabel fontWeight="bold">Dirección:</FormLabel>
-                  <Input
-                    {...register("direccionCliente")}
-                    defaultValue={client?.direccionCliente}
-                    borderWidth={2}
-                    borderRadius="md"
-                  />
+                <FormControl isInvalid={!!errors.nombreCliente}>
                   <FormLabel fontWeight="bold">Nombre:</FormLabel>
                   <Input
                     {...register("nombreCliente")}
@@ -115,6 +122,25 @@ function UpdateSupplier({ modalUpdateClient }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
+                  <FormErrorMessage>
+                    {errors.nombreCliente && errors.nombreCliente.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.direccionCliente}>
+                  <FormLabel fontWeight="bold">Dirección:</FormLabel>
+                  <Input
+                    {...register("direccionCliente")}
+                    defaultValue={client?.direccionCliente}
+                    borderWidth={2}
+                    borderRadius="md"
+                  />
+                  <FormErrorMessage>
+                    {errors.direccionCliente && errors.direccionCliente.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.telefonoCliente}>
                   <FormLabel fontWeight="bold">Teléfono:</FormLabel>
                   <Input
                     {...register("telefonoCliente")}
@@ -122,6 +148,9 @@ function UpdateSupplier({ modalUpdateClient }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
+                  <FormErrorMessage>
+                    {errors.telefonoCliente && errors.telefonoCliente.message}
+                  </FormErrorMessage>
                 </FormControl>
               </Stack>
             </ModalBody>
@@ -134,7 +163,7 @@ function UpdateSupplier({ modalUpdateClient }: Props) {
                 borderRadius="md"
                 fontWeight="bold"
               >
-                CONFIRMAR CAMBIOS
+                Actualizar
               </Button>
               <Button
                 variant="outline"
@@ -142,7 +171,7 @@ function UpdateSupplier({ modalUpdateClient }: Props) {
                 borderRadius="md"
                 fontWeight="bold"
               >
-                CANCELAR
+                Cancelar
               </Button>
             </ModalFooter>
           </form>

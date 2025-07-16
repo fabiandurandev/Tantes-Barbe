@@ -2,6 +2,7 @@ import {
   Button,
   Divider,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Input,
@@ -13,7 +14,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  Text,
+  useToast,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -40,7 +41,9 @@ function AddSupplier({ modalAddSupplier }: Props) {
     resolver: zodResolver(addSupplierSchema),
   });
 
-  const { mutate: RegisterSupplier, error, reset } = UseAddSupplier();
+  const { mutate: RegisterSupplier, reset } = UseAddSupplier();
+
+  const toast = useToast();
 
   const onSubmit = (supplier: AddSupplierFormType) => {
     const supplierLoad = {
@@ -56,6 +59,14 @@ function AddSupplier({ modalAddSupplier }: Props) {
         resetForm();
         reset();
         modalAddSupplier.onClose();
+        toast({
+          title: "Registro de proveedor exitoso!",
+          description: "Se ha registrado el proveedor con éxito!",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
       },
     });
   };
@@ -91,7 +102,8 @@ function AddSupplier({ modalAddSupplier }: Props) {
                   Datos del Proveedor
                 </Heading>
                 {/* RIF de la empresa */}
-                <FormControl>
+
+                <FormControl isInvalid={!!errors.rifProveedor}>
                   <FormLabel fontWeight="bold">RIF:</FormLabel>
                   <Input
                     {...register("rifProveedor")}
@@ -99,12 +111,13 @@ function AddSupplier({ modalAddSupplier }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  {error && <Text color={"red"}>El rif ya existe</Text>}
-                  {errors && (
-                    <Text color={"red"}>{errors.rifProveedor?.message}</Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.rifProveedor && errors.rifProveedor.message}
+                  </FormErrorMessage>
+                </FormControl>
 
-                  {/* parte para el nombre */}
+                {/* parte para el nombre */}
+                <FormControl isInvalid={!!errors.nombreProveedor}>
                   <FormLabel fontWeight="bold">Nombre:</FormLabel>
                   <Input
                     {...register("nombreProveedor")}
@@ -112,11 +125,13 @@ function AddSupplier({ modalAddSupplier }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  {errors && (
-                    <Text color={"red"}>{errors.nombreProveedor?.message}</Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.nombreProveedor && errors.nombreProveedor.message}
+                  </FormErrorMessage>
+                </FormControl>
 
-                  {/* Correo electronico */}
+                {/* Correo electronico */}
+                <FormControl isInvalid={!!errors.emailProveedor}>
                   <FormLabel fontWeight="bold">Email:</FormLabel>
                   <Input
                     {...register("emailProveedor")}
@@ -125,11 +140,13 @@ function AddSupplier({ modalAddSupplier }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  {errors && (
-                    <Text color={"red"}>{errors.emailProveedor?.message}</Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.emailProveedor && errors.emailProveedor.message}
+                  </FormErrorMessage>
+                </FormControl>
 
-                  {/* Seccion del numero del telefono */}
+                {/* Seccion del numero del telefono */}
+                <FormControl isInvalid={!!errors.telefonoProveedor}>
                   <FormLabel fontWeight="bold">Teléfono:</FormLabel>
                   <Input
                     {...register("telefonoProveedor")}
@@ -138,13 +155,14 @@ function AddSupplier({ modalAddSupplier }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  {errors && (
-                    <Text color={"red"}>
-                      {errors.telefonoProveedor?.message}
-                    </Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.telefonoProveedor &&
+                      errors.telefonoProveedor.message}
+                  </FormErrorMessage>
+                </FormControl>
 
-                  {/* Seccion de la direccion */}
+                {/* Seccion de la direccion */}
+                <FormControl isInvalid={!!errors.direccionProveedor}>
                   <FormLabel fontWeight="bold">Dirección:</FormLabel>
                   <Input
                     {...register("direccionProveedor")}
@@ -152,11 +170,10 @@ function AddSupplier({ modalAddSupplier }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  {errors && (
-                    <Text color={"red"}>
-                      {errors.direccionProveedor?.message}
-                    </Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.direccionProveedor &&
+                      errors.direccionProveedor.message}
+                  </FormErrorMessage>
                 </FormControl>
               </Stack>
             </ModalBody>

@@ -87,9 +87,10 @@ function ListClientModal({ listClientModal }: Props) {
                       <Td>{c.direccionCliente}</Td>
                       <Td>
                         <ButtonDelete
+                          modalList={listClientModal}
                           reset={resetClientsList}
                           codigoServicio={c.cedulaCliente}
-                          name="clientes"
+                          name="cliente"
                         />
                       </Td>
                     </Tr>

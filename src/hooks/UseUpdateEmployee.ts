@@ -1,3 +1,4 @@
+import { useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -24,5 +25,26 @@ async function UpdateEmployee({
 }
 
 export function UseUpdateEmployee() {
-  return useMutation({ mutationFn: UpdateEmployee });
+  const toast = useToast();
+  return useMutation({
+    mutationFn: UpdateEmployee,
+    onError: (error) => {
+      if (axios.isAxiosError(error) && error.response) {
+        const errors = error.response.data;
+
+        if (errors.emailEmpleado) {
+          toast({
+            title: "Error con el correo",
+            description: "El correo ya existe.",
+            status: "error",
+            duration: 4000,
+            isClosable: true,
+            position: "top",
+          });
+        }
+
+        // Puedes agregar más campos si deseas
+      }
+    },
+  });
 }

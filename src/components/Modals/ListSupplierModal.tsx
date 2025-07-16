@@ -87,6 +87,7 @@ function ListSupplierModal({ modalListSupplier }: Props) {
                         <Td>{s.direccionProveedor}</Td>
                         <Td>
                           <ButtonDelete
+                            modalList={modalListSupplier}
                             name="proveedor"
                             reset={resetSupplierList}
                             codigoServicio={s.rifProveedor}

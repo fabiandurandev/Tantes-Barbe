@@ -1,3 +1,4 @@
+import { useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -23,5 +24,24 @@ async function UpdateSupplier({
 }
 
 export function UseUpdateSupplier() {
-  return useMutation({ mutationFn: UpdateSupplier });
+  const toast = useToast();
+  return useMutation({
+    mutationFn: UpdateSupplier,
+    onError: (error) => {
+      if (axios.isAxiosError(error) && error.response) {
+        const errors = error.response.data;
+
+        if (errors.emailProveedor) {
+          toast({
+            title: "Error en el correo.",
+            description: "El correo ingreado ya existe, verifique el correo.",
+            status: "error",
+            duration: 4000,
+            isClosable: true,
+            position: "top",
+          });
+        }
+      }
+    },
+  });
 }
