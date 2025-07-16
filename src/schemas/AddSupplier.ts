@@ -16,22 +16,22 @@ export const addSupplierSchema = z.object({
     .string()
     .min(1, { message: "Campo requerido" })
     .min(3, { message: "Longitud mínima 3." })
-    .max(100, { message: "Longitud máxima 100." }),
+    .max(40, { message: "Longitud máxima excedida." }),
   emailProveedor: z
     .string({
       invalid_type_error: "Debe ser un texto",
     })
     .email({ message: "Debe ser un correo válido." })
     .min(1, { message: "El correo es requerido." })
-    .max(250, { message: "Longitud máxima 250." }),
+    .max(50, { message: "Longitud máxima excedida." }),
   telefonoProveedor: z
     .string()
     .min(1, { message: "Campo requerido." })
-    .max(100, { message: "Longitud máxima 100." }),
+    .max(12, { message: "Longitud máxima excedida." }),
   direccionProveedor: z
     .string()
     .min(1, { message: "Campo requerido" })
-    .max(250, { message: "Longitud máxima 250." }),
+    .max(40, { message: "Longitud máxima excedida." }),
 });
 
 export type AddSupplierFormType = z.infer<typeof addSupplierSchema>;

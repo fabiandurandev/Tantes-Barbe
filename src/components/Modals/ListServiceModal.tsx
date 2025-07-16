@@ -83,6 +83,7 @@ function ListServiceModal({ modal4 }: Props) {
                         <Td>{s.precioServicio}</Td>
                         <Td>
                           <ButtonDelete
+                            modalList={modal4}
                             reset={resetSale}
                             name="servicio"
                             codigoServicio={s.codigoServicio}

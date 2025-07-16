@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Input,
@@ -13,7 +14,7 @@ import {
   ModalOverlay,
   Select,
   Stack,
-  Text,
+  useToast,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -54,6 +55,8 @@ function UpdateEmployee({ updateEmployeeModal }: Props) {
 
   const { resetEmployee, employee } = useEmployeeStore();
 
+  const toast = useToast();
+
   const onSubmit = (employee: addEmployeeFormType) => {
     const employeeUpdate = {
       cedulaEmpleado: employee.cedulaEmpleado,
@@ -71,6 +74,14 @@ function UpdateEmployee({ updateEmployeeModal }: Props) {
         resetForm();
         resetEmployee();
         queryClient.removeQueries({ queryKey: ["employee"] });
+        toast({
+          title: "Empleado actualizado.",
+          description: "Se ha actualizado el empleado de manera existosa!",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
         updateEmployeeModal.onClose();
       },
     });
@@ -87,7 +98,7 @@ function UpdateEmployee({ updateEmployeeModal }: Props) {
             fontSize="lg"
             fontWeight="bold"
           >
-            Agregar empleados
+            Actualizar empleado
           </ModalHeader>
           <ModalCloseButton color="white" />
 
@@ -97,21 +108,33 @@ function UpdateEmployee({ updateEmployeeModal }: Props) {
                 <Heading as="h3" size="md" fontWeight="semibold">
                   Datos del Empleado
                 </Heading>
+
+                <FormLabel>Cédula:</FormLabel>
+                <Input
+                  defaultValue={employee?.cedulaEmpleado}
+                  readOnly
+                  {...register("cedulaEmpleado")}
+                  type="number"
+                  placeholder=""
+                  borderWidth={2}
+                  borderRadius="md"
+                />
+
                 <FormControl>
-                  <FormLabel>Cédula:</FormLabel>
+                  <FormLabel>Nombre:</FormLabel>
                   <Input
-                    defaultValue={employee?.cedulaEmpleado}
-                    readOnly
-                    {...register("cedulaEmpleado")}
-                    type="number"
+                    defaultValue={employee?.nombreEmpleado}
+                    {...register("nombreEmpleado")}
                     placeholder=""
                     borderWidth={2}
                     borderRadius="md"
                   />
+                  <FormErrorMessage>
+                    {errors.nombreEmpleado && errors.nombreEmpleado.message}
+                  </FormErrorMessage>
+                </FormControl>
 
-                  {errors && (
-                    <Text color={"red"}>{errors.cedulaEmpleado?.message}</Text>
-                  )}
+                <FormControl>
                   <FormLabel>Teléfono:</FormLabel>
                   <Input
                     defaultValue={employee?.telefonoEmpleado}
@@ -121,22 +144,12 @@ function UpdateEmployee({ updateEmployeeModal }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  {errors && (
-                    <Text color={"red"}>
-                      {errors.telefonoEmpleado?.message}
-                    </Text>
-                  )}
-                  <FormLabel>Nombre:</FormLabel>
-                  <Input
-                    defaultValue={employee?.nombreEmpleado}
-                    {...register("nombreEmpleado")}
-                    placeholder=""
-                    borderWidth={2}
-                    borderRadius="md"
-                  />
-                  {errors && (
-                    <Text color={"red"}>{errors.nombreEmpleado?.message}</Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.telefonoEmpleado && errors.telefonoEmpleado.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl>
                   <FormLabel>Email:</FormLabel>
                   <Input
                     defaultValue={employee?.emailEmpleado}
@@ -146,9 +159,12 @@ function UpdateEmployee({ updateEmployeeModal }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  {errors && (
-                    <Text color={"red"}>{errors.emailEmpleado?.message}</Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.emailEmpleado && errors.emailEmpleado.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl>
                   {/* Nivel de autorizacion */}
                   <FormLabel>Nivel de Autorización:</FormLabel>
                   <Select
@@ -159,11 +175,13 @@ function UpdateEmployee({ updateEmployeeModal }: Props) {
                     <option value="ADM">Administrador</option>
                     <option value="EMP">Empleado</option>
                   </Select>
-                  {errors && (
-                    <Text color={"red"}>
-                      {errors.nivelAutorizacion?.message}
-                    </Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.nivelAutorizacion &&
+                      errors.nivelAutorizacion.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl>
                   <FormLabel>Dirección:</FormLabel>
                   <Input
                     defaultValue={employee?.direccionEmpleado}
@@ -172,26 +190,19 @@ function UpdateEmployee({ updateEmployeeModal }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  {errors && (
-                    <Text color={"red"}>
-                      {errors.direccionEmpleado?.message}
-                    </Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.direccionEmpleado &&
+                      errors.direccionEmpleado.message}
+                  </FormErrorMessage>
                 </FormControl>
               </Stack>
             </ModalBody>
             <ModalFooter>
-              <Button
-                type="submit"
-                colorScheme="blue"
-                mr={3}
-                borderRadius="md"
-                leftIcon={<span>+</span>}
-              >
-                Agregar
+              <Button type="submit" colorScheme="blue" mr={3} borderRadius="md">
+                Actualizar
               </Button>
               <Button variant="outline" onClick={cancelar} borderRadius="md">
-                CANCELAR
+                Cancelar
               </Button>
             </ModalFooter>
           </form>

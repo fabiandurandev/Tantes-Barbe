@@ -13,6 +13,7 @@ import {
   Heading,
   Button,
   FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -43,6 +44,8 @@ function AddClient({ addClientModal }: Props) {
   // Custom hook para la mutación
   const { mutate } = UseAddClient();
 
+  const toast = useToast();
+
   // Submit handler
   const onSubmit = async (data: addClientFormType) => {
     const clientLoad = {
@@ -55,6 +58,24 @@ function AddClient({ addClientModal }: Props) {
       onSuccess: () => {
         reset();
         addClientModal.onClose();
+        toast({
+          title: "Registro de cliente exitoso",
+          description: "Se ha registrado el cliente con éxito!",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
+      },
+      onError: () => {
+        toast({
+          title: "Fallo en el registro de Cliente.",
+          description: "Cliente ya existente, verifique la cédula.",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
       },
     });
   };
@@ -75,7 +96,7 @@ function AddClient({ addClientModal }: Props) {
           fontSize="lg"
           fontWeight="bold"
         >
-          Agregar nuevos clientes
+          Agregar nuevo cliente
         </ModalHeader>
         <ModalCloseButton color="white" />
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -83,13 +83,13 @@ function CedulaClientModal({ cedulaClientModal, updateClientModal }: Props) {
         <ModalOverlay />
         <ModalContent borderRadius={"20px"}>
           <ModalHeader bg={"blue.600"} color="white" borderTopRadius={"20px"}>
-            Codigo Servicio
+            Cédula cliente
           </ModalHeader>
           <ModalCloseButton />
           <form onSubmit={handleSubmit(onSubmit)}>
             <ModalBody>
               <FormControl>
-                <FormLabel>Codigo:</FormLabel>
+                <FormLabel>Cédula:</FormLabel>
                 <Input
                   {...register("cedulaCliente")}
                   placeholder="Ingrese la cédula del cliente"
@@ -100,13 +100,10 @@ function CedulaClientModal({ cedulaClientModal, updateClientModal }: Props) {
                   <Text color={"red"}>{errors.cedulaCliente?.message}</Text>
                 )}
 
-                {error && <Text color={"red"}>Servicio no encontrado</Text>}
+                {error && <Text color={"red"}>Cliente no encontrado</Text>}
               </FormControl>
             </ModalBody>
             <ModalFooter>
-              <Button variant="ghost" onClick={cancelar}>
-                Cancelar
-              </Button>
               <Button
                 colorScheme="blue"
                 mr={3}
@@ -114,6 +111,9 @@ function CedulaClientModal({ cedulaClientModal, updateClientModal }: Props) {
                 type="submit"
               >
                 Aceptar
+              </Button>
+              <Button variant="ghost" onClick={cancelar}>
+                Cancelar
               </Button>
             </ModalFooter>
           </form>

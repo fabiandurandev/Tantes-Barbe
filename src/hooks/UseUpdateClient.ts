@@ -16,12 +16,14 @@ async function UpdateClient({
   data: dataClientType;
 }) {
   const response = await axios.patch(
-    `http://127.0.0.1:8000/clientes/${cedulaCliente}`,
+    `http://127.0.0.1:8000/cliente/${cedulaCliente}`,
     data
   );
   return response.data;
 }
 
 export function UseUpdateClient() {
-  return useMutation({ mutationFn: UpdateClient });
+  return useMutation({
+    mutationFn: UpdateClient,
+  });
 }

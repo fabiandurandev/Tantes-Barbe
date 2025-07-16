@@ -16,20 +16,24 @@ type PropsModal = {
     onClose: () => void;
   };
   onClick: () => void;
+  name: string;
+  modalList: {
+    onClose: () => void;
+  };
 };
 
-function ModalDecision({ ModalDecision, onClick }: PropsModal) {
+function ModalDecision({ ModalDecision, onClick, name }: PropsModal) {
   return (
     <>
       <Modal isOpen={ModalDecision.isOpen} onClose={ModalDecision.onClose}>
         <ModalOverlay />
         <ModalContent borderRadius={"10"}>
-          <ModalHeader borderTopRadius={"10"} bg={"blue.600"}>
+          <ModalHeader color={"white"} borderTopRadius={"10"} bg={"blue.600"}>
             Aviso
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>¿Desea eliminar este servicio?</Text>
+            <Text>¿Desea eliminar el {name}?</Text>
           </ModalBody>
 
           <ModalFooter>

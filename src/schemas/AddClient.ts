@@ -8,14 +8,24 @@ export const addClientSchema = z.object({
       invalid_type_error: "Número requerido",
     })
     .min(1, { message: "Campo requerido" })
-    .min(3, { message: "Logintud mínima 3" }),
+    .min(3, { message: "Logintud mínima 3" })
+    .max(99999999, { message: "Logintud máxima excedida." })
+    .refine((val) => Number.isInteger(val), {
+      message: "El número debe ser un entero sin decimales.",
+    }),
   telefonoCliente: z
     .string()
     .min(1, { message: "Campo requerido" })
     .min(3, { message: "Logintud mínima 3" })
-    .max(100, { message: "Longitud máxima excedida." }),
-  nombreCliente: z.string().min(1, { message: "Campo requerido" }),
-  direccionCliente: z.string().min(1, { message: "Campo requerido" }),
+    .max(12, { message: "Longitud máxima excedida." }),
+  nombreCliente: z
+    .string()
+    .min(1, { message: "Campo requerido" })
+    .max(40, { message: "Longituda máxima excedida." }),
+  direccionCliente: z
+    .string()
+    .min(1, { message: "Campo requerido" })
+    .max(40, { message: "Longitud máxima  excedida." }),
 });
 
 export type addClientFormType = z.infer<typeof addClientSchema>;

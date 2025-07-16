@@ -7,42 +7,37 @@ import Clientes from "./Clientes";
 import Empleados from "./Empleados";
 import Proveedores from "./Proveedores";
 import Compras from "./Compras";
-import Services from "../components/Modals/AddServices";
+import LoginPage from "./Login";
+import ProtectedRoute from "./protectedRoute";
+import RegistrarsePage from "./Registrarse";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <ProtectedRoute />,
     children: [
       {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "/servicios",
-        element: <Servicios />,
-      },
-      {
-        path: "/productos",
-        element: <Productos />,
-      },
-      {
-        path: "/clientes",
-        element: <Clientes />,
-      },
-      {
-        path: "/empleados",
-        element: <Empleados />,
-      },
-      {
-        path: "/proveedores",
-        element: <Proveedores />,
-      },
-      {
-        path: "/compras",
-        element: <Compras />,
+        path: "/",
+        element: <Layout />,
+        children: [
+          { index: true, element: <Home /> },
+          { path: "/servicios", element: <Servicios /> },
+          { path: "/productos", element: <Productos /> },
+          { path: "/clientes", element: <Clientes /> },
+          { path: "/empleados", element: <Empleados /> },
+          { path: "/proveedores", element: <Proveedores /> },
+          { path: "/compras", element: <Compras /> },
+        ],
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/registrarse",
+    element: <RegistrarsePage />,
   },
 ]);
 

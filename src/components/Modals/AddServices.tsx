@@ -76,8 +76,8 @@ function Services({ modal1 }: Props) {
       <Modal isOpen={modal1.isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent borderRadius={"20"}>
-          <ModalHeader borderTopRadius={"10"} bg={"blue.600"}>
-            Agregar nuevos servicios
+          <ModalHeader color={"white"} borderTopRadius={"10"} bg={"blue.600"}>
+            Agregar nuevo servicio
           </ModalHeader>
           <ModalCloseButton />
           <form onSubmit={handleSubmit(onClick)}>
@@ -121,11 +121,11 @@ function Services({ modal1 }: Props) {
             </ModalBody>
 
             <ModalFooter>
-              <Button variant="ghost" mr={3} onClick={onClose}>
-                CANCELAR
-              </Button>
               <Button type="submit" colorScheme="blue">
-                + Agregar
+                Agregar
+              </Button>
+              <Button variant="ghost" mr={3} onClick={onClose}>
+                Cancelar
               </Button>
             </ModalFooter>
           </form>

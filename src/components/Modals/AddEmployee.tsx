@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Input,
@@ -13,15 +14,15 @@ import {
   ModalOverlay,
   Select,
   Stack,
-  Text,
+  useToast,
 } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { UseAddEmployee } from "../../hooks/UseAddEmployee";
 import {
   addEmployeeSchema,
   type addEmployeeFormType,
 } from "../../schemas/AddEmployee";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UseAddEmployee } from "../../hooks/UseAddEmployee";
 
 type Props = {
   modalAddEmployee: {
@@ -40,7 +41,9 @@ function AddEmployee({ modalAddEmployee }: Props) {
     resolver: zodResolver(addEmployeeSchema),
   });
 
-  const { mutate, reset, error } = UseAddEmployee();
+  const { mutate, reset } = UseAddEmployee();
+
+  const toast = useToast();
 
   const onSubmit = (dataEmployee: addEmployeeFormType) => {
     const employeeLoad = {
@@ -57,6 +60,14 @@ function AddEmployee({ modalAddEmployee }: Props) {
         resetForm();
         reset();
         modalAddEmployee.onClose();
+        toast({
+          title: "Empleado registrado!",
+          description: "El empleado se ha registrado de forma exitosa.",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
       },
     });
   };
@@ -65,6 +76,7 @@ function AddEmployee({ modalAddEmployee }: Props) {
     modalAddEmployee.onClose();
     resetForm();
   };
+
   return (
     <>
       <Modal isOpen={modalAddEmployee.isOpen} onClose={cancelar}>
@@ -77,7 +89,7 @@ function AddEmployee({ modalAddEmployee }: Props) {
             fontSize="lg"
             fontWeight="bold"
           >
-            Agregar empleados
+            Agregar empleado
           </ModalHeader>
           <ModalCloseButton color="white" />
 
@@ -87,7 +99,8 @@ function AddEmployee({ modalAddEmployee }: Props) {
                 <Heading as="h3" size="md" fontWeight="semibold">
                   Datos del Empleado
                 </Heading>
-                <FormControl>
+
+                <FormControl isInvalid={!!errors.cedulaEmpleado}>
                   <FormLabel>Cédula:</FormLabel>
                   <Input
                     {...register("cedulaEmpleado")}
@@ -96,10 +109,25 @@ function AddEmployee({ modalAddEmployee }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  {error && <Text color={"red"}>{error.message}</Text>}
-                  {errors && (
-                    <Text color={"red"}>{errors.cedulaEmpleado?.message}</Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.cedulaEmpleado && errors.cedulaEmpleado.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.nombreEmpleado}>
+                  <FormLabel>Nombre:</FormLabel>
+                  <Input
+                    {...register("nombreEmpleado")}
+                    placeholder=""
+                    borderWidth={2}
+                    borderRadius="md"
+                  />
+                  <FormErrorMessage>
+                    {errors.nombreEmpleado && errors.nombreEmpleado.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.telefonoEmpleado}>
                   <FormLabel>Teléfono:</FormLabel>
                   <Input
                     {...register("telefonoEmpleado")}
@@ -108,21 +136,12 @@ function AddEmployee({ modalAddEmployee }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  {errors && (
-                    <Text color={"red"}>
-                      {errors.telefonoEmpleado?.message}
-                    </Text>
-                  )}
-                  <FormLabel>Nombre:</FormLabel>
-                  <Input
-                    {...register("nombreEmpleado")}
-                    placeholder=""
-                    borderWidth={2}
-                    borderRadius="md"
-                  />
-                  {errors && (
-                    <Text color={"red"}>{errors.nombreEmpleado?.message}</Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.telefonoEmpleado && errors.telefonoEmpleado.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.emailEmpleado}>
                   <FormLabel>Email:</FormLabel>
                   <Input
                     {...register("emailEmpleado")}
@@ -131,10 +150,13 @@ function AddEmployee({ modalAddEmployee }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  {errors && (
-                    <Text color={"red"}>{errors.emailEmpleado?.message}</Text>
-                  )}
-                  {/* Nivel de autorizacion */}
+                  <FormErrorMessage>
+                    {errors.emailEmpleado && errors.emailEmpleado.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                {/* Nivel de autorizacion */}
+                <FormControl isInvalid={!!errors.nivelAutorizacion}>
                   <FormLabel>Nivel de Autorización:</FormLabel>
                   <Select
                     {...register("nivelAutorizacion")}
@@ -143,11 +165,13 @@ function AddEmployee({ modalAddEmployee }: Props) {
                     <option value="ADM">Administrador</option>
                     <option value="EMP">Empleado</option>
                   </Select>
-                  {errors && (
-                    <Text color={"red"}>
-                      {errors.nivelAutorizacion?.message}
-                    </Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.nivelAutorizacion &&
+                      errors.nivelAutorizacion.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.direccionEmpleado}>
                   <FormLabel>Dirección:</FormLabel>
                   <Input
                     {...register("direccionEmpleado")}
@@ -155,11 +179,10 @@ function AddEmployee({ modalAddEmployee }: Props) {
                     borderWidth={2}
                     borderRadius="md"
                   />
-                  {errors && (
-                    <Text color={"red"}>
-                      {errors.direccionEmpleado?.message}
-                    </Text>
-                  )}
+                  <FormErrorMessage>
+                    {errors.direccionEmpleado &&
+                      errors.direccionEmpleado.message}
+                  </FormErrorMessage>
                 </FormControl>
               </Stack>
             </ModalBody>

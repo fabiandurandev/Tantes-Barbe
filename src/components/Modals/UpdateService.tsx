@@ -124,11 +124,11 @@ function UpdateService({ modal2, service }: Props) {
 
             <ModalFooter>
               <Button type="submit" colorScheme="blue" mr={3} borderRadius="md">
-                CONFIRMAR CAMBIOS
+                Actualizar
               </Button>
 
               <Button variant="ghost" onClick={cancelar} borderRadius="md">
-                CANCELAR
+                Cancelar
               </Button>
             </ModalFooter>
           </form>

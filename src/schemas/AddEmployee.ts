@@ -5,7 +5,7 @@ export const addEmployeeSchema = z.object({
     .string()
     .min(1, { message: "Campo requerido." })
     .min(3, { message: "Longitud mínima 3." })
-    .max(100, { message: "Longitud máxima 100." }),
+    .max(40, { message: "Longitud máxima excedida." }),
   cedulaEmpleado: z
     .number({
       required_error: "Campo requerido.",
@@ -20,17 +20,18 @@ export const addEmployeeSchema = z.object({
   direccionEmpleado: z
     .string()
     .min(1, { message: "Campo requerido" })
-    .min(3, { message: "Longitud mínima 3." }),
+    .min(3, { message: "Longitud mínima 3." })
+    .max(40, { message: "Longitud máxima excedida." }),
   telefonoEmpleado: z
     .string()
     .min(1, { message: "Campo requerido." })
     .min(3, { message: "Longitud mínima 3." })
-    .max(100, { message: "Longitud máxima 100." }),
+    .max(12, { message: "Longitud máxima excedida." }),
   emailEmpleado: z
     .string({ message: "Debe ser un texto" })
     .email({ message: "Debe ser un correo válido." })
     .min(1, { message: "Email requerido." })
-    .max(250, { message: "Longitud máxima excedida." }),
+    .max(50, { message: "Longitud máxima excedida." }),
   nivelAutorizacion: z
     .string({
       required_error: "Debe seleccionar un rol.",

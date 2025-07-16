@@ -109,9 +109,6 @@ function CodigoServiceModal({ modal3, modal2 }: Props) {
               </FormControl>
             </ModalBody>
             <ModalFooter>
-              <Button variant="ghost" onClick={cancelar}>
-                Cancelar
-              </Button>
               <Button
                 colorScheme="blue"
                 mr={3}
@@ -119,6 +116,9 @@ function CodigoServiceModal({ modal3, modal2 }: Props) {
                 type="submit"
               >
                 Aceptar
+              </Button>
+              <Button variant="ghost" onClick={cancelar}>
+                Cancelar
               </Button>
             </ModalFooter>
           </form>
