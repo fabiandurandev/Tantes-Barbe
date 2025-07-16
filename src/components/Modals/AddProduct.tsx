@@ -14,6 +14,7 @@ import {
   ModalOverlay,
   Stack,
   useToast,
+
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -36,6 +37,7 @@ function AddProduct({ addProductModal }: Props) {
     reset: resetForm,
     handleSubmit,
     formState: { errors },
+
   } = useForm<addProductFormType>({
     resolver: zodResolver(addProductSchema),
   });
@@ -119,6 +121,7 @@ function AddProduct({ addProductModal }: Props) {
                   </FormErrorMessage>
                 </FormControl>
 
+
                 <FormControl isInvalid={!!errors.nombreProducto}>
                   <FormLabel>Descripción:</FormLabel>
                   <Input
@@ -132,6 +135,7 @@ function AddProduct({ addProductModal }: Props) {
                   </FormErrorMessage>
                 </FormControl>
 
+
                 <FormControl isInvalid={!!errors.precioProducto}>
                   <FormLabel>Precio:</FormLabel>
                   <Input
@@ -144,6 +148,7 @@ function AddProduct({ addProductModal }: Props) {
                   <FormErrorMessage>
                     {errors.precioProducto && errors.precioProducto.message}
                   </FormErrorMessage>
+
                 </FormControl>
               </Stack>
             </ModalBody>
