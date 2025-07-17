@@ -89,6 +89,8 @@ export type VentaType = {
   estadoVenta: string;
   itemsProductos?: ProductoType[];
   itemsServicios?: ServicioType[];
+  tasaCambio: number;
+  precio_total_bs: number;
   precio_total: number;
 };
 
@@ -99,4 +101,5 @@ export type ComprasType = {
   estadoCompra: string;
   itemsProductosCompra?: ProductoType[];
   precio_total: number;
+  precio_total_bs: number;
 };

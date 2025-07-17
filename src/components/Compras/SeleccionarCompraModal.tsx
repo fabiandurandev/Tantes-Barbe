@@ -80,10 +80,7 @@ function SeleccionarFechaCompraModal({ seleccionarFechaCompraModal }: Props) {
   };
   return (
     <>
-      <Modal
-        isOpen={seleccionarFechaCompraModal.isOpen}
-        onClose={seleccionarFechaCompraModal.onClose}
-      >
+      <Modal isOpen={seleccionarFechaCompraModal.isOpen} onClose={cancelar}>
         <ModalOverlay />
         <ModalContent borderRadius="20px">
           <ModalHeader

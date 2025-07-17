@@ -49,7 +49,7 @@ function ListCompraModal({ ListCompraModal }: Props) {
   const anularCompraModal = useDisclosure();
 
   const onClose = () => {
-    queryClient.removeQueries({ queryKey: ["ventasFecha"] });
+    queryClient.removeQueries({ queryKey: ["comprasFecha"] });
     resetCompras();
     ListCompraModal.onClose();
   };

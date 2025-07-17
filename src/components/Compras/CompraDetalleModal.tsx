@@ -122,6 +122,9 @@ export default function DetalleCompraModal({ detalleCompraModal }: Props) {
             <p>
               <strong>Total:</strong> ${compra?.precio_total}
             </p>
+            <p>
+              <strong>Total Bs:</strong> {compra?.precio_total_bs}
+            </p>
           </div>
         </ModalBody>
         <ModalFooter>

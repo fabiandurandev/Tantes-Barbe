@@ -22,6 +22,7 @@ import logo from "../assets/logoPosibleFinal.png";
 import SeleccionarFecharModal from "./Ventas/SeleccionarFechaModal";
 import SeleccionarFechaCompraModal from "./Compras/SeleccionarCompraModal";
 import useAuthStore from "../contexts/authStore";
+import TasaCambio from "./TasaCambio/TasaCambio";
 
 interface Props {
   children: React.ReactNode;
@@ -62,6 +63,8 @@ export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const seleccionarFechaModal = useDisclosure();
+
+  const tasaCambio = useDisclosure();
 
   const seleccionarFechaCompraModal = useDisclosure();
 
@@ -126,6 +129,8 @@ export default function NavBar() {
                 <MenuItem onClick={seleccionarFechaCompraModal.onOpen}>
                   Reportes de Compras
                 </MenuItem>
+                <MenuItem onClick={tasaCambio.onOpen}>Tasa de cambio</MenuItem>
+                <TasaCambio tasaCambio={tasaCambio} />
                 <SeleccionarFechaCompraModal
                   seleccionarFechaCompraModal={seleccionarFechaCompraModal}
                 />
