@@ -20,20 +20,23 @@ const useLogin = () => {
         "http://localhost:8000/api/token/",
         data
       );
+      console.log("Login response:", response.data);
       return response.data;
     },
     onSuccess: (data) => {
       login(data.access); // guarda el token en Zustand
       toast({
         title: "Inicio de sesion",
-        description: "Inicion exitoso!",
+        description: "Inicio exitoso!",
         status: "success",
         duration: 4000,
         isClosable: true,
         position: "top",
       });
+      localStorage.setItem("rol", data.rol); // ya tienes el rol aquí
+      console.log("Rol guardado en localStorage:", localStorage.getItem("rol"));
     },
-    onError: (error) => {
+    onError: () => {
       toast({
         title: "Login fallido",
         description: "Verifica tu correo y contraseña",

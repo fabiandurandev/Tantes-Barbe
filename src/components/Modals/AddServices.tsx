@@ -12,6 +12,7 @@ import {
   ModalOverlay,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -33,6 +34,8 @@ type Props = {
 };
 
 function Services({ modal1 }: Props) {
+  const toast = useToast();
+
   const {
     register,
     handleSubmit,
@@ -61,6 +64,14 @@ function Services({ modal1 }: Props) {
         reset();
         modal1.onClose();
         navigate("/");
+        toast({
+          title: "Servicio agregado",
+          description: "El servicio ha sido agregado correctamente.",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
       },
     });
   };

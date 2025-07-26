@@ -79,7 +79,12 @@ function ProductTableSearch({ dataProducts, dataServices }: Props) {
               p.stock > 0 && (
                 <Tr key={index}>
                   <Td>{p.codigoProducto}</Td>
-                  <Td onClick={() => onClickProduct(p)} cursor={"pointer"}>
+                  <Td
+                    whiteSpace="normal"
+                    wordBreak="break-word"
+                    onClick={() => onClickProduct(p)}
+                    cursor={"pointer"}
+                  >
                     {p.nombreProducto}
                   </Td>
                 </Tr>
@@ -88,7 +93,12 @@ function ProductTableSearch({ dataProducts, dataServices }: Props) {
           {dataServices?.map((s, index) => (
             <Tr key={index}>
               <Td>{s.codigoServicio}</Td>
-              <Td onClick={() => onClicService(s)} cursor={"pointer"}>
+              <Td
+                whiteSpace="normal"
+                wordBreak="break-word"
+                onClick={() => onClicService(s)}
+                cursor={"pointer"}
+              >
                 {s.nombreServicio}
               </Td>
             </Tr>
