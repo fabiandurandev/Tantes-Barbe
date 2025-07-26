@@ -1,48 +1,58 @@
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Flex,
-  Input,
   Button,
+  Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
-  Text,
-  Link,
+  IconButton,
   Image,
-  useColorModeValue,
+  Input,
   InputGroup,
   InputRightElement,
-  IconButton,
+  Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { loginSchema, type loginSchemaType } from "./schemaLogin";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import useLogin from "./useLogin";
-import { useState } from "react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Link as RouterLink } from "react-router";
+import {
+  cambiarContrasenaSchema,
+  type cambiarContrasenaSchemaType,
+} from "./schemaCambiarContrasena";
+import UseRegistrarUsuario from "./UseCambiarContrasena";
+import useCambiarContrasena from "./UseCambiarContrasena";
 
-export default function LoginPage() {
+export default function CambiarContrasena() {
+  useEffect(() => {
+    const token = localStorage.getItem("token_temporal");
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
+    formState: { errors },
     reset: resetForm,
-  } = useForm<loginSchemaType>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<cambiarContrasenaSchemaType>({
+    resolver: zodResolver(cambiarContrasenaSchema),
   });
 
   const navigate = useNavigate();
 
-  const loginMutation = useLogin();
-
-  const onSubmit = async (data: loginSchemaType) => {
-    try {
-      await loginMutation.mutateAsync(data);
-      navigate("/"); // redirigir si todo va bien
-    } catch (error) {}
-  };
-
   const [showPassword, setShowPassword] = useState(false);
+
+  const [showPassword2, setShowPassword2] = useState(false);
+
+  const { mutate } = useCambiarContrasena();
+
+  const onSubmit = async (data: cambiarContrasenaSchemaType) => {
+    await mutate({ nueva_contrasena: data.password });
+  };
 
   const cancelar = () => {
     resetForm();
@@ -94,20 +104,22 @@ export default function LoginPage() {
 
         {/* Título */}
         <Text fontSize="2xl" fontWeight="bold" mb={6}>
-          Iniciar Sesión
+          Cambiar contraseña.
         </Text>
 
         <form
-          style={{ width: "80%", justifyItems: "center" }}
           onSubmit={handleSubmit(onSubmit)}
+          style={{ width: "80%", justifyItems: "center" }}
         >
           {/* Campos del formulario */}
-          <FormControl id="email" mb={4} w="100%" maxW="400px">
-            <FormLabel>Correo Electrónico:</FormLabel>
-            <Input {...register("email")} type="email" />
-          </FormControl>
 
-          <FormControl id="password" mb={4} w="100%" maxW="400px">
+          <FormControl
+            isInvalid={!!errors.password}
+            id="password"
+            mb={4}
+            w="100%"
+            maxW="400px"
+          >
             <FormLabel>Contraseña:</FormLabel>
             <InputGroup>
               <Input
@@ -126,33 +138,42 @@ export default function LoginPage() {
                 />
               </InputRightElement>
             </InputGroup>
+            <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
           </FormControl>
-          <Flex gap={6}>
-            <Link
-              as={RouterLink}
-              to="/recuperar-contrasena"
-              alignItems={"center"}
-              color="white.500"
-              fontSize="sm"
-              mb={4}
-            >
-              Olvidé mi contraseña
-            </Link>
-            <Link
-              as={RouterLink}
-              to="/registrarse"
-              alignItems={"center"}
-              color="white.500"
-              fontSize="sm"
-              mb={4}
-            >
-              Registrarse
-            </Link>
-          </Flex>
+
+          <FormControl
+            isInvalid={!!errors.confirmarPassword}
+            id="confirmarPassword"
+            mb={4}
+            w="100%"
+            maxW="400px"
+          >
+            <FormLabel>Confirmar contraseña:</FormLabel>
+            <InputGroup>
+              <Input
+                {...register("confirmarPassword")}
+                type={showPassword2 ? "text" : "password"}
+              />
+              <InputRightElement>
+                <IconButton
+                  _hover={{}}
+                  variant="ghost"
+                  aria-label={
+                    showPassword2 ? "Ocultar contraseña" : "Mostrar contraseña"
+                  }
+                  icon={showPassword2 ? <ViewOffIcon /> : <ViewIcon />}
+                  onClick={() => setShowPassword2(!showPassword2)}
+                />
+              </InputRightElement>
+            </InputGroup>
+            <FormErrorMessage>
+              {errors.confirmarPassword?.message}
+            </FormErrorMessage>
+          </FormControl>
 
           <Flex gap={4}>
             <Button colorScheme="blue" type="submit">
-              Ingresar
+              Cambiar
             </Button>
             <Button onClick={cancelar} colorScheme="gray">
               Cancelar

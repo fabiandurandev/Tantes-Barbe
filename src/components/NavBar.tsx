@@ -29,15 +29,24 @@ interface Props {
   to: string;
 }
 
-const Links = [
-  { uri: "/", label: "Venta" },
-  { uri: "/servicios", label: "Servicios" },
-  { uri: "/productos", label: "Productos" },
-  { uri: "/clientes", label: "Clientes" },
-  { uri: "/empleados", label: "Empleados" },
-  { uri: "/proveedores", label: "Proveedores" },
-  { uri: "/compras", label: "Compras" },
-];
+const getLinksByRol = (rol: string) => {
+  if (rol === "EMP") {
+    return [
+      { uri: "/", label: "Venta" },
+      { uri: "/clientes", label: "Clientes" },
+    ];
+  }
+
+  return [
+    { uri: "/", label: "Venta" },
+    { uri: "/servicios", label: "Servicios" },
+    { uri: "/productos", label: "Productos" },
+    { uri: "/clientes", label: "Clientes" },
+    { uri: "/empleados", label: "Empleados" },
+    { uri: "/proveedores", label: "Proveedores" },
+    { uri: "/compras", label: "Compras" },
+  ];
+};
 
 const NavLink = (props: Props) => {
   const { children, to } = props;
@@ -60,6 +69,10 @@ const NavLink = (props: Props) => {
 };
 //const bg={useColorModeValue("gray.100", "gray.900")}
 export default function NavBar() {
+  const rol = localStorage.getItem("rol") || "";
+
+  const Links = getLinksByRol(rol);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const seleccionarFechaModal = useDisclosure();

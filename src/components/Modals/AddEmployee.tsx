@@ -162,7 +162,7 @@ function AddEmployee({ modalAddEmployee }: Props) {
                     {...register("nivelAutorizacion")}
                     placeholder="Seleccione una opción."
                   >
-                    <option value="ADM">Administrador</option>
+                    <option value="ADMIN">Administrador</option>
                     <option value="EMP">Empleado</option>
                   </Select>
                   <FormErrorMessage>
