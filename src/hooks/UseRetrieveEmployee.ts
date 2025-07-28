@@ -3,7 +3,7 @@ import axios from "axios";
 import type { EmployeeType, ServiceType } from "../types";
 
 const queryEmployee = async (cedulaEmpleado: number): Promise<EmployeeType> => {
-  const url = `http://127.0.0.1:8000/empleado/${cedulaEmpleado}`;
+  const url = `https://backend-proyecto-ing-soft-ii.onrender.com/empleado/${cedulaEmpleado}`;
 
   try {
     const response = await axios.get(url);

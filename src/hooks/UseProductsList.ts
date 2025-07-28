@@ -3,7 +3,7 @@ import type { ProductType, ServiceType } from "../types";
 import { useQuery } from "@tanstack/react-query";
 
 const queryProductsList = (): Promise<ProductType[]> => {
-  const url = "http://127.0.0.1:8000/productos";
+  const url = "https://backend-proyecto-ing-soft-ii.onrender.com/productos";
   return axios.get(url).then((response) => response.data);
 };
 

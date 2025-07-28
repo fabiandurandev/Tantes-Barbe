@@ -17,7 +17,7 @@ async function UpdateSupplier({
   data: dataSupplier;
 }) {
   const response = await axios.patch(
-    `http://127.0.0.1:8000/proveedor/${rifProveedor}`,
+    `https://backend-proyecto-ing-soft-ii.onrender.com/proveedor/${rifProveedor}`,
     data
   );
   return response.data;

@@ -3,7 +3,7 @@ import axios from "axios";
 import type { SupplierType } from "../types";
 
 const querySupplierList = (): Promise<SupplierType[]> => {
-  const url = "http://127.0.0.1:8000/proveedores";
+  const url = "https://backend-proyecto-ing-soft-ii.onrender.com/proveedores";
   return axios.get(url).then((response) => response.data);
 };
 

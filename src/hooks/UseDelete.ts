@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 
 async function deleteSome({ codigo, name }: { codigo: number; name: string }) {
   const response = await axios.delete(
-    `http://127.0.0.1:8000/${name}/${codigo}`
+    `https://backend-proyecto-ing-soft-ii.onrender.com/${name}/${codigo}`
   );
   return response.data;
 }

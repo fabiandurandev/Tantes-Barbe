@@ -12,7 +12,7 @@ type addSupplier = {
 
 async function AddSupplierFN(supplier: addSupplier) {
   const response = await axios.post(
-    "http://127.0.0.1:8000/proveedores/",
+    "https://backend-proyecto-ing-soft-ii.onrender.com/proveedores/",
     supplier
   );
 

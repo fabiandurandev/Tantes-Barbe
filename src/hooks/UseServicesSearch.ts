@@ -3,7 +3,7 @@ import type { ServiceType } from "../types";
 import { useQuery } from "@tanstack/react-query";
 
 const queryServices = (params: string | undefined): Promise<ServiceType[]> => {
-  const url = "http://127.0.0.1:8000/servicios";
+  const url = "https://backend-proyecto-ing-soft-ii.onrender.com/servicios";
   return axios
     .get(url, {
       params: params ? { nombreServicio__icontains: params } : {},

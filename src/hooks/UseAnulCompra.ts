@@ -4,7 +4,7 @@ import axios from "axios";
 async function AnularCompra(id: number) {
   const data = { estadoCompra: "ANUL" };
   const response = await axios.patch(
-    `http://127.0.0.1:8000/compra/${id}`,
+    `https://backend-proyecto-ing-soft-ii.onrender.com/compra/${id}`,
     data
   );
   return response.data;

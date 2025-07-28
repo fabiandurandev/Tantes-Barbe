@@ -18,7 +18,7 @@ const UseRegistrarUsuario = () => {
   return useMutation({
     mutationFn: async (data: RegisterData) => {
       const response = await axios.post(
-        "http://localhost:8000/registro_usuario/",
+        "https://backend-proyecto-ing-soft-ii.onrender.com/registro_usuario/",
         data
       );
       return response.data;

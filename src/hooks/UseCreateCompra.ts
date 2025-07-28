@@ -18,7 +18,10 @@ export default function PayloadCompra(
 }
 
 async function CreateCompra(data: CompraType) {
-  const response = await axios.post("http://127.0.0.1:8000/compras/", data);
+  const response = await axios.post(
+    "https://backend-proyecto-ing-soft-ii.onrender.com/compras/",
+    data
+  );
 
   return response.data;
 }

@@ -3,7 +3,7 @@ import axios from "axios";
 import type { ServiceType } from "../types";
 
 const queryService = async (codigo: number): Promise<ServiceType> => {
-  const url = `http://127.0.0.1:8000/servicio/${codigo}`;
+  const url = `https://backend-proyecto-ing-soft-ii.onrender.com/servicio/${codigo}`;
 
   try {
     const response = await axios.get(url);
