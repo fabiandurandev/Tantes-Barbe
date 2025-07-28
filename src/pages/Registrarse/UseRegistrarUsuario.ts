@@ -1,5 +1,4 @@
 // hooks/useRegister.ts
-import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
@@ -23,7 +22,7 @@ const UseRegistrarUsuario = () => {
       );
       return response.data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         title: "Usuario creado",
         description: "Usuario creado con éxito!",
@@ -34,7 +33,7 @@ const UseRegistrarUsuario = () => {
       });
       navigate("/login");
     },
-    onError: (error) => {
+    onError: () => {
       toast({
         title: "Registro fallido.",
         description: "Correo ya registrado, verifique el correo",

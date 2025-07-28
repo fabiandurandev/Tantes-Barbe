@@ -5,7 +5,6 @@ export const ProtectedRouteWithRole = ({
 }: {
   allowedRoles: string[];
 }) => {
-  const accessToken = localStorage.getItem("access");
   const userRol = localStorage.getItem("rol");
   console.log("User role:", userRol);
 

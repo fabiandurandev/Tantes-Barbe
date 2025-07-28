@@ -8,14 +8,19 @@ type TasaCambio = {
 };
 
 const getUltimaTasaCambio = async (): Promise<TasaCambio> => {
-  const res = await axios.get("http://127.0.0.1:8000/tasa-cambio/");
+  const res = await axios.get(
+    "https://backend-proyecto-ing-soft-ii.onrender.com/tasa-cambio/"
+  );
   return res.data;
 };
 
 const postTasaCambio = async (nuevaTasa: {
   valor: number;
 }): Promise<TasaCambio> => {
-  const res = await axios.post("http://127.0.0.1:8000/tasa-cambio/", nuevaTasa);
+  const res = await axios.post(
+    "https://backend-proyecto-ing-soft-ii.onrender.com/tasa-cambio/",
+    nuevaTasa
+  );
   return res.data;
 };
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { ProductType, ServiceType } from "../types";
+import type { ProductType } from "../types";
 import { useQuery } from "@tanstack/react-query";
 
 const queryProductsList = (): Promise<ProductType[]> => {

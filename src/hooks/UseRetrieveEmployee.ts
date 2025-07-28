@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import type { EmployeeType, ServiceType } from "../types";
+import type { EmployeeType } from "../types";
 
 const queryEmployee = async (cedulaEmpleado: number): Promise<EmployeeType> => {
   const url = `https://backend-proyecto-ing-soft-ii.onrender.com/empleado/${cedulaEmpleado}`;

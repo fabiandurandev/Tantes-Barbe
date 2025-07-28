@@ -1,13 +1,11 @@
 import { Button, Flex, useDisclosure } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
-import useProductsStore, {
+import {
   useSupplierProductsStore,
   UseSupplierStoreUpdateDelete,
 } from "../../contexts/store";
 import PayloadCompra, { UseCreateCompra } from "../../hooks/UseCreateCompra";
 import CancelSaleModal from "../Modals/CancelSaleModal";
-import UseProductsSearch from "../../hooks/UseProductsSearch";
 
 type Props = {};
 
@@ -23,8 +21,6 @@ function ButtonsSend({}: Props) {
   const payload = PayloadCompra(supplier, products, quantity);
 
   const queryClient = useQueryClient();
-
-  const navigate = useNavigate();
 
   const onClick = () => {
     RegisterCompra(payload, {
