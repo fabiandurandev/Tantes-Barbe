@@ -10,12 +10,8 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { useSupplierProductsStore } from "../../contexts/store";
 import Buttons from "./Buttons";
-import useProductsStore, {
-  UseServicesStore,
-  useSupplierProductsStore,
-} from "../../contexts/store";
-import TBodyService from "./TBodyService";
 
 type Props = {};
 
@@ -24,8 +20,6 @@ function ProductListEditor({}: Props) {
 
   const { products, quantity, addQuantity, remove, subtractQuantity } =
     useSupplierProductsStore();
-
-  const { services } = UseServicesStore();
 
   const th = ["N°", "Código", "Precio", "Descripción", "Cantidad", "Quitar"];
 
@@ -123,7 +117,6 @@ function ProductListEditor({}: Props) {
                 </Td>
               </Tr>
             ))}
-          {services && <TBodyService />}
         </Tbody>
       </Table>
     </TableContainer>
