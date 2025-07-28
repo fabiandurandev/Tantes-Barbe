@@ -85,13 +85,13 @@ function RifSupplier({ modalRifSupplier, modalUpdateSupplier }: Props) {
         <ModalOverlay />
         <ModalContent borderRadius={"20px"}>
           <ModalHeader bg={"blue.600"} color="white" borderTopRadius={"20px"}>
-            Codigo Servicio
+            Rif del Proveedor
           </ModalHeader>
           <ModalCloseButton />
           <form onSubmit={handleSubmit(onSubmit)}>
             <ModalBody>
               <FormControl>
-                <FormLabel>Codigo:</FormLabel>
+                <FormLabel>Rif:</FormLabel>
                 <Input
                   {...register("rifProveedor")}
                   placeholder="Ingrese el rif del proveedor."

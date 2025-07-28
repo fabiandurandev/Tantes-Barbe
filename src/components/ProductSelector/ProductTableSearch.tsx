@@ -13,9 +13,10 @@ import useProductsStore, { UseServicesStore } from "../../contexts/store";
 type Props = {
   dataProducts?: ProductType[];
   dataServices?: ServiceType[];
+  onSelect?: () => void;
 };
 
-function ProductTableSearch({ dataProducts, dataServices }: Props) {
+function ProductTableSearch({ dataProducts, dataServices, onSelect }: Props) {
   const {
     add: addProduct,
     quantity: quantityProduct,
@@ -42,6 +43,7 @@ function ProductTableSearch({ dataProducts, dataServices }: Props) {
       quantityProduct.push(1);
       addProduct(p);
     }
+    if (onSelect) onSelect();
   };
 
   const onClicService = (s: ServiceType) => {
@@ -56,6 +58,8 @@ function ProductTableSearch({ dataProducts, dataServices }: Props) {
       quantityService.push(1);
       addService(s);
     }
+
+    if (onSelect) onSelect();
   };
 
   return (

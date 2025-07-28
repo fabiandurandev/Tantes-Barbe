@@ -15,12 +15,10 @@ import UseProductsSearch from "../../hooks/UseProductsSearch";
 import { productSchema, type ProductSearchForm } from "../../schemas/Product";
 import SkeletonProduct from "../skeletons/SkeletonProduct";
 import ProductTableSearch from "./ProductTableSearch";
-import UseServiceSearch from "../../hooks/UseServicesSearch";
 
-type Props = {};
-
-function ProductSearch({}: Props) {
-  const [busqueda, setBusqueda] = useState<string>("");
+function ProductSearch() {
+  const [busqueda, setBusqueda] = useState<string | undefined>("");
+  const [mostrarResultados, setMostrarResultados] = useState(false);
 
   const {
     register,
@@ -40,36 +38,24 @@ function ProductSearch({}: Props) {
   } = UseProductsSearch(busqueda);
 
   const onSubmit = () => {
-    refetchProduct();
-    reset();
+    setBusqueda(getValues("productName")); // actualiza la búsqueda
+    setMostrarResultados(true); // muestra resultados
+    refetchProduct(); // lanza la búsqueda
+    reset(); // limpia el input
+  };
+
+  const handleSeleccionarProducto = () => {
+    setMostrarResultados(false); // oculta la tabla al seleccionar
   };
 
   if (error) return <p>{error?.message}</p>;
-  if (isLoading) {
-    return (
-      <>
-        <FormControl>
-          <FormLabel m={2} color={"gray.400"}>
-            Servicio/Producto
-          </FormLabel>
-          <Flex mx={1}>
-            <Input flex={"8"} size={"sm"} border={"1px"} />
-            <Button size={"sm"} flex={"2"} bg={"transparent"}>
-              <FaSearch size={20} color="#2E66E1" />
-            </Button>
-          </Flex>
-        </FormControl>
-        <SkeletonProduct />
-      </>
-    );
-  }
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
           <FormLabel m={2} color={"gray.400"}>
-            Servicio/Producto
+            Producto
           </FormLabel>
           <Flex mx={1}>
             <Input
@@ -91,9 +77,10 @@ function ProductSearch({}: Props) {
           {errors.productName?.message && (
             <Text color={"red.400"}>{errors.productName?.message}</Text>
           )}
-          {dataProducts === undefined ? (
-            ""
-          ) : dataProducts?.length === 0 ? (
+
+          {isLoading ? (
+            <SkeletonProduct />
+          ) : !mostrarResultados ? null : dataProducts?.length === 0 ? (
             <Text>Productos no encontrados</Text>
           ) : (
             <Box
@@ -101,9 +88,12 @@ function ProductSearch({}: Props) {
               mx={"4px"}
               mt={"4px"}
               overflow={"auto"}
-              maxH={"370"}
+              maxH={"370px"}
             >
-              <ProductTableSearch dataProducts={dataProducts} />
+              <ProductTableSearch
+                dataProducts={dataProducts}
+                onSelect={handleSeleccionarProducto}
+              />
             </Box>
           )}
         </FormControl>

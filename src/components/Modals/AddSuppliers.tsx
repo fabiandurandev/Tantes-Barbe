@@ -91,7 +91,7 @@ function AddSupplier({ modalAddSupplier }: Props) {
             fontSize="lg"
             fontWeight="bold"
           >
-            Agregar nuevos proveedores
+            Agregar nuevo proveedor
           </ModalHeader>
           <ModalCloseButton color="white" />
 

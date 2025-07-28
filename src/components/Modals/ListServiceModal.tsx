@@ -80,7 +80,6 @@ function ListServiceModal({ modal4 }: Props) {
                         <Td>{s.codigoServicio}</Td>
                         <Td>{s.nombreServicio}</Td>
                         <Td>{s.precioServicio}</Td>
-                        <Td>{s.precioServicio}</Td>
                         <Td>
                           <ButtonDelete
                             modalList={modal4}

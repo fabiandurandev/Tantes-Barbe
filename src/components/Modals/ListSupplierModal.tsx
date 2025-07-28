@@ -51,7 +51,7 @@ function ListSupplierModal({ modalListSupplier }: Props) {
             bgColor={"blue.600"}
             textAlign={"center"}
           >
-            Servicios
+            Proveedores
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
