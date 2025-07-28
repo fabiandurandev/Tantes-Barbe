@@ -7,17 +7,15 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import type { ProductType, ServiceType } from "../../types";
-import useProductsStore, {
-  UseServicesStore,
-  useSupplierProductsStore,
-} from "../../contexts/store";
+import { useSupplierProductsStore } from "../../contexts/store";
+import type { ProductType } from "../../types";
 
 type Props = {
   dataProducts?: ProductType[];
+  onSelect?: () => void;
 };
 
-function ProductTableSearch({ dataProducts }: Props) {
+function ProductTableSearch({ dataProducts, onSelect }: Props) {
   const {
     add: addProduct,
     quantity: quantityProduct,
@@ -37,9 +35,9 @@ function ProductTableSearch({ dataProducts }: Props) {
       quantityProduct.push(1);
       addProduct(p);
     }
-  };
 
-  console.log(dataProducts);
+    if (onSelect) onSelect();
+  };
 
   return (
     <TableContainer>

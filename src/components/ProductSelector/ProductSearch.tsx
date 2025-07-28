@@ -22,6 +22,8 @@ type Props = {};
 function ProductSearch({}: Props) {
   const [busqueda, setBusqueda] = useState<string>("");
 
+  const [mostrarResultados, setMostrarResultados] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -47,7 +49,12 @@ function ProductSearch({}: Props) {
 
   const onSubmit = async () => {
     await Promise.all([refetchProduct(), refetchService()]);
+    setMostrarResultados(true);
     reset();
+  };
+
+  const handleSeleccionarProducto = () => {
+    setMostrarResultados(false); // oculta la tabla al seleccionar
   };
 
   if (error) return <p>{error?.message}</p>;
@@ -98,10 +105,10 @@ function ProductSearch({}: Props) {
           {errors.productName?.message && (
             <Text color={"red.400"}>{errors.productName?.message}</Text>
           )}
-          {dataProducts === undefined && dataServices === undefined ? (
+          {!mostrarResultados ? (
             ""
           ) : dataProducts?.length === 0 && dataServices?.length === 0 ? (
-            <Text>Productos y servicios no encontrados</Text>
+            <Text color={"red"}>Productos y servicios no encontrados</Text>
           ) : (
             <Box
               border={"1px"}
@@ -113,6 +120,7 @@ function ProductSearch({}: Props) {
               <ProductTableSearch
                 dataProducts={dataProducts}
                 dataServices={dataServices}
+                onSelect={handleSeleccionarProducto}
               />
             </Box>
           )}
