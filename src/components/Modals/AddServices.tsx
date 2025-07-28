@@ -120,7 +120,6 @@ function Services({ modal1 }: Props) {
                   <FormLabel>Precio:</FormLabel>
                   <Input
                     {...register("precioServicio")}
-                    type="number"
                     placeholder="Ingrese el precio"
                     borderWidth={2}
                   />
