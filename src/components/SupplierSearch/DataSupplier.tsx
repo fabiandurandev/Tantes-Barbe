@@ -1,5 +1,5 @@
-import { Box, Text, Highlight } from "@chakra-ui/react";
-import type { ClientType, SupplierType } from "../../types";
+import { Box, Highlight, Text } from "@chakra-ui/react";
+import type { SupplierType } from "../../types";
 
 type Props = {
   data?: SupplierType;

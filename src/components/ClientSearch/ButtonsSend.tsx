@@ -1,60 +1,25 @@
 import { Button, Flex, useDisclosure } from "@chakra-ui/react";
-import useProductsStore, {
-  useClientStore,
-  UseServicesStore,
-} from "../../contexts/store";
+import useProductsStore, { UseServicesStore } from "../../contexts/store";
+import UseListEmployees from "../../hooks/UseListEmployees";
 import CancelSaleModal from "../Modals/CancelSaleModal";
-import { UseCreateSale } from "../../hooks/UseCreateSale";
-import PayloadVenta from "../ProductSelector/PayloadVenta";
-import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
+import SelecionarEmpleado from "../Modals/SelecionarEmpleado";
 
 type Props = {};
 
 function ButtonsSend({}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { products, quantity, resetSale } = useProductsStore();
+  const { products } = useProductsStore();
 
-  const {
-    services,
-    quantity: quantityService,
-    resetSale: resetSaleService,
-  } = UseServicesStore();
+  const { services } = UseServicesStore();
 
-  const { mutate: RegisterSale } = UseCreateSale();
+  const seleccionarEmpleadoModal = useDisclosure();
 
-  const { client, resetClient } = useClientStore();
-
-  const payload = PayloadVenta(
-    client,
-    1,
-    products,
-    services,
-    quantity,
-    quantityService
-  );
-
-  const queryClient = useQueryClient();
-
-  const navigate = useNavigate();
+  const { refetch } = UseListEmployees();
 
   const onClick = () => {
-    RegisterSale(payload, {
-      onSuccess: () => {
-        resetClient();
-        resetSale();
-        resetSaleService();
-        onClose();
-        queryClient.resetQueries({ queryKey: ["client"] });
-        queryClient.resetQueries({ queryKey: ["services"] });
-        queryClient.setQueryData(["services"], undefined);
-        queryClient.resetQueries({ queryKey: ["products"] });
-        queryClient.setQueryData(["products"], undefined);
-
-        navigate("/");
-      },
-    });
+    refetch();
+    seleccionarEmpleadoModal.onOpen();
   };
 
   return (
@@ -68,7 +33,7 @@ function ButtonsSend({}: Props) {
         justifyContent={"center"}
       >
         <Button
-          onClick={() => onClick()}
+          onClick={onClick}
           disabled={products.length === 0 && services.length === 0}
           width={"80%"}
           _hover={{ opacity: 0.6 }}
@@ -90,6 +55,7 @@ function ButtonsSend({}: Props) {
         </Button>
       </Flex>
       <CancelSaleModal isOpen={isOpen} onClose={onClose} />
+      <SelecionarEmpleado selecionarProductoModal={seleccionarEmpleadoModal} />
     </>
   );
 }

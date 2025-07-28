@@ -22,7 +22,6 @@ import {
   cambiarContrasenaSchema,
   type cambiarContrasenaSchemaType,
 } from "./schemaCambiarContrasena";
-import UseRegistrarUsuario from "./UseCambiarContrasena";
 import useCambiarContrasena from "./UseCambiarContrasena";
 
 export default function CambiarContrasena() {

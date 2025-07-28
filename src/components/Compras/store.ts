@@ -1,10 +1,5 @@
 import { create } from "zustand";
-import type {
-  ComprasType,
-  ItemProductType,
-  SupplierType,
-  VentaType,
-} from "../../types";
+import type { ComprasType } from "../../types";
 
 type CompraTypeStore = {
   compras: ComprasType[] | undefined;

@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useNavigate } from "react-router";
 
 async function deleteSome({ codigo, name }: { codigo: number; name: string }) {
   const response = await axios.delete(
@@ -11,8 +10,6 @@ async function deleteSome({ codigo, name }: { codigo: number; name: string }) {
 
 export const UseDelete = () => {
   const queryClient = useQueryClient();
-
-  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: deleteSome,

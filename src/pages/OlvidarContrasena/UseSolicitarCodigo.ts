@@ -4,7 +4,6 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import useEmailStore from "../VerificarCodigo/store";
-import { set } from "react-hook-form";
 
 type SolicitarCodigoData = {
   email: string;
@@ -25,7 +24,7 @@ const useSolicitarCodigo = () => {
       );
       return response.data;
     },
-    onSuccess: (data: SolicitarCodigoData) => {
+    onSuccess: () => {
       toast({
         title: "Código enviado",
         description: "Revisa tu correo electrónico.",

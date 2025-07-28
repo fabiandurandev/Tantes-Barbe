@@ -213,7 +213,7 @@ export const useSupplierProductsStore = create<SupplierProductsStore>(
         ],
       })),
     quantity: [],
-    addQuantity: (i, product) =>
+    addQuantity: (i) =>
       set((state) => ({
         quantity: state.quantity.map((q, index) => (i === index ? q + 1 : q)),
       })),
