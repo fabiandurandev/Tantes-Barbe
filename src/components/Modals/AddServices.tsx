@@ -63,7 +63,7 @@ function Services({ modal1 }: Props) {
       onSuccess: () => {
         reset();
         modal1.onClose();
-        navigate("/");
+        navigate("/servicios");
         toast({
           title: "Servicio agregado",
           description: "El servicio ha sido agregado correctamente.",

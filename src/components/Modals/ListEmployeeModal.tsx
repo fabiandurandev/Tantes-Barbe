@@ -51,7 +51,7 @@ function ListEmployeeModal({ modalListEmployee }: Props) {
             bgColor={"blue.600"}
             textAlign={"center"}
           >
-            Servicios
+            Empleados
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
