@@ -10,7 +10,7 @@ export default function PayloadVenta(
 ) {
   return {
     idCliente: client!.id,
-    idEmpleado: 1,
+    idEmpleado: employeeId,
     estadoVenta: "VAL",
     itemsProductos: products?.map((p, i) => ({
       producto: p.id,
