@@ -9,7 +9,10 @@ type addClient = {
 };
 
 async function AddClient(data: addClient) {
-  const response = await axios.post("http://127.0.0.1:8000/clientes/", data);
+  const response = await axios.post(
+    "https://backend-proyecto-ing-soft-ii.onrender.com/clientes/",
+    data
+  );
 
   return response.data;
 }

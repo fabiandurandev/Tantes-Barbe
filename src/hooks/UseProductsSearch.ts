@@ -5,7 +5,7 @@ import axios from "axios";
 const queryProducts = async (
   params: string | undefined
 ): Promise<ProductType[]> => {
-  const url = "http://127.0.0.1:8000/productos";
+  const url = "https://backend-proyecto-ing-soft-ii.onrender.com/productos";
   try {
     const response = await axios.get(url, {
       params: params ? { nombreProducto__icontains: params } : {},

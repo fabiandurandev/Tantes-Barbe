@@ -17,7 +17,7 @@ const useVerificarCodigo = () => {
     mutationFn: async (data: VerificarCodigoData) => {
       console.log(data);
       const response = await axios.post(
-        "http://localhost:8000/verificar-codigo/",
+        "https://backend-proyecto-ing-soft-ii.onrender.com/verificar-codigo/",
         data
       );
       return response.data; // esto debería incluir el token temporal

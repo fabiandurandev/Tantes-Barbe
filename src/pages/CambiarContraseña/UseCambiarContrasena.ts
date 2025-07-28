@@ -21,7 +21,7 @@ const useCambiarContrasena = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:8000/cambiar-contrasena/",
+        "https://backend-proyecto-ing-soft-ii.onrender.com/cambiar-contrasena/",
         data,
         {
           headers: {

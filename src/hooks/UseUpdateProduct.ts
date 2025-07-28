@@ -9,7 +9,7 @@ async function UpdateProduct({
   data: { nombreProducto: string; precioProducto: number };
 }) {
   const response = await axios.patch(
-    `http://localhost:8000/producto/${codigoProducto}`,
+    `https://backend-proyecto-ing-soft-ii.onrender.com/producto/${codigoProducto}`,
     data
   );
   return response.data;

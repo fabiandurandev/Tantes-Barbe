@@ -11,7 +11,8 @@ const queryVentaFecha = async ({
   fechaInicio,
   fechaFinal,
 }: FechaParams): Promise<VentaType[]> => {
-  const url = "http://127.0.0.1:8000/ventas/por-fechas/";
+  const url =
+    "https://backend-proyecto-ing-soft-ii.onrender.com/ventas/por-fechas/";
 
   try {
     const response = await axios.get(url, {

@@ -20,7 +20,7 @@ const useSolicitarCodigo = () => {
     mutationFn: async (data: SolicitarCodigoData) => {
       setEmail(data.email);
       const response = await axios.post(
-        "http://localhost:8000/solicitar-codigo/",
+        "https://backend-proyecto-ing-soft-ii.onrender.com/solicitar-codigo/",
         data
       );
       return response.data;

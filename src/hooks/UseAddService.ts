@@ -8,7 +8,10 @@ type addService = {
 };
 
 async function AddService(data: addService) {
-  const response = await axios.post("http://127.0.0.1:8000/servicios/", data);
+  const response = await axios.post(
+    "https://backend-proyecto-ing-soft-ii.onrender.com/servicios/",
+    data
+  );
 
   return response.data;
 }

@@ -16,7 +16,7 @@ async function UpdateClient({
   data: dataClientType;
 }) {
   const response = await axios.patch(
-    `http://127.0.0.1:8000/cliente/${cedulaCliente}`,
+    `https://backend-proyecto-ing-soft-ii.onrender.com/cliente/${cedulaCliente}`,
     data
   );
   return response.data;

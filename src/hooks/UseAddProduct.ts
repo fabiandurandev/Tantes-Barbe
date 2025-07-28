@@ -9,7 +9,10 @@ type addProductData = {
 };
 
 async function AddProduct(data: addProductData) {
-  const response = await axios.post("http://127.0.0.1:8000/productos/", data);
+  const response = await axios.post(
+    "https://backend-proyecto-ing-soft-ii.onrender.com/productos/",
+    data
+  );
 
   return response.data;
 }

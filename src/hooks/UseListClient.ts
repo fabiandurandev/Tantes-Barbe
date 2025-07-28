@@ -3,7 +3,7 @@ import axios from "axios";
 import type { ClientType } from "../types";
 
 const queryClientList = (): Promise<ClientType[]> => {
-  const url = "http://127.0.0.1:8000/clientes";
+  const url = "https://backend-proyecto-ing-soft-ii.onrender.com/clientes";
   return axios.get(url).then((response) => response.data);
 };
 

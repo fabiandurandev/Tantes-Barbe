@@ -3,7 +3,7 @@ import type { ClientType } from "../types";
 import { useQuery } from "@tanstack/react-query";
 
 const queryClient = async (cedula: number): Promise<ClientType> => {
-  const url = `http://127.0.0.1:8000/cliente/${cedula}`;
+  const url = `https://backend-proyecto-ing-soft-ii.onrender.com/cliente/${cedula}`;
 
   try {
     const response = await axios.get(url);

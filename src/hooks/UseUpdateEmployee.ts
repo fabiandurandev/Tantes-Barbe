@@ -18,7 +18,7 @@ async function UpdateEmployee({
   data: dataEmployeeType;
 }) {
   const response = await axios.patch(
-    `http://127.0.0.1:8000/empleado/${cedulaEmpleado}`,
+    `https://backend-proyecto-ing-soft-ii.onrender.com/empleado/${cedulaEmpleado}`,
     data
   );
   return response.data;
